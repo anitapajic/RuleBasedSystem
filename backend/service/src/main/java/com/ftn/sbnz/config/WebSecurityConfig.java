@@ -69,10 +69,12 @@ public class WebSecurityConfig {
 
         http.exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint);
         http.authorizeHttpRequests()
-                .antMatchers("/api/user/register").permitAll()
-                .antMatchers("/images/**").permitAll()
-                .antMatchers("/api/user/login").permitAll()
-                .antMatchers("/socket/**").permitAll()
+                .requestMatchers("/api/user/register").permitAll()
+                .requestMatchers("/images/**").permitAll()
+                .requestMatchers("/api/user/login").permitAll()
+                .requestMatchers("/socket/**").permitAll()
+                .requestMatchers("/swagger-ui/**").permitAll()
+                .requestMatchers("/v3/**").permitAll()
                 .anyRequest().authenticated().and()
                 .cors().and()
 
@@ -88,7 +90,7 @@ public class WebSecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers(HttpMethod.POST, "/api/user/login");
+        return (web) -> web.ignoring().requestMatchers(HttpMethod.POST, "/api/user/login");
 
     }
 }

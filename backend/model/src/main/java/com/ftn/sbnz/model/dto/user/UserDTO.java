@@ -1,6 +1,6 @@
 package com.ftn.sbnz.model.dto.user;
 
-import javax.validation.constraints.Pattern;
+import jakarta.validation.constraints.Pattern;
 
 public class UserDTO {
 
