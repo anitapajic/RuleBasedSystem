@@ -20,6 +20,13 @@ public class UserDTO {
     public UserDTO() {
 
     }
+
+    public UserDTO(String name, String surname, String email, String role) {
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.role = role;
+    }
     //endregion
 
     //region Getters and Setters

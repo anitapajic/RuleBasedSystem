@@ -3,6 +3,7 @@ package com.ftn.sbnz.service.user;
 import com.ftn.sbnz.model.dto.user.UserDTO;
 import com.ftn.sbnz.model.dto.user.UserTokenState;
 import com.ftn.sbnz.model.models.user.User;
+import com.ftn.sbnz.model.models.user.Role;
 import com.ftn.sbnz.repository.UserRepository;
 import com.ftn.sbnz.repository.RoleRepository;
 import com.ftn.sbnz.util.TokenUtils;
@@ -14,7 +15,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.Collections;
 
 @Service
@@ -46,7 +46,7 @@ public class UserService {
         String jwt = tokenUtils.generateToken(user);
         int expiresIn = tokenUtils.getExpiredIn();
 
-        return new UserTokenState(jwt, expiresIn);
+        return new UserTokenState(jwt, expiresIn, user.getRoles().get(0).getName(), user.getId());
     }
 
     public UserDTO register(UserDTO userDTO) {
@@ -61,9 +61,15 @@ public class UserService {
         user.setName(userDTO.getName());
         user.setSurname(userDTO.getSurname());
 
+        System.out.println(user.getRoles().get(0).getName());
+        // TODO : Desi se timeout i pukne
         userRepository.save(user);
         userDTO.setId(user.getId());
         return userDTO;
+    }
+
+    public User getByEmail(String email){
+        return userRepository.findByEmail(email);
     }
 
 }
