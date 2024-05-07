@@ -16,7 +16,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -48,7 +52,7 @@ public class UserService {
             String jwt = tokenUtils.generateToken(user);
             int expiresIn = tokenUtils.getExpiredIn();
 
-            return new UserTokenState(jwt, expiresIn, user.getRoles().get(0).getName(), user.getId());
+            return new UserTokenState(jwt, expiresIn, user.getRoles().stream().toList().get(0).getName(), user.getId());
         }
         catch(Exception e){
             throw new AuthenticationException("aaaaa");
@@ -62,9 +66,12 @@ public class UserService {
 
         // da vidimo da li cemo raditi sa maperima
         User user = new User();
+        Set<Role> roles = new HashSet<>();
+        roles.add(roleRepository.findByName(userDTO.getRole()));
+
         user.setEmail(userDTO.getEmail());
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        user.setRoles(Collections.singletonList(roleRepository.findByName(userDTO.getRole())));
+        user.setRoles(roles);
         user.setName(userDTO.getName());
         user.setSurname(userDTO.getSurname());
         userRepository.save(user);

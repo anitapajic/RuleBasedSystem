@@ -42,7 +42,7 @@ public class UserController {
     public ResponseEntity<?> getByEmail(@PathVariable String email) {
         try {
             User user = userService.getByEmail(email);
-            return ResponseEntity.ok(new UserDTO(user.getName(), user.getSurname(), user.getEmail(), user.getRoles().get(0).getName()));
+            return ResponseEntity.ok(new UserDTO(user.getName(), user.getSurname(), user.getEmail(), user.getRoles().stream().toList().get(0).getName()));
         }
         catch(Exception e){
             return (ResponseEntity<?>) ResponseEntity.notFound();
