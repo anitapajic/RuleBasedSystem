@@ -45,7 +45,7 @@ function App() {
         );
       case "ROLE_DOCTOR":
         return menuOptions.filter((option) =>
-          option.role === "doctor" || option.role === "logged" || option.role === "admin" || option.role === "all"
+          option.role === "doctor" || option.role === "logged" || option.role === "all"
         );
       default:
         return menuOptions.filter((option) =>

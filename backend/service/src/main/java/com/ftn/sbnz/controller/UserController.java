@@ -3,6 +3,7 @@ package com.ftn.sbnz.controller;
 import com.ftn.sbnz.model.dto.user.UserDTO;
 import com.ftn.sbnz.model.models.user.User;
 import com.ftn.sbnz.service.user.UserService;
+import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,14 +21,9 @@ public class UserController {
     private UserService userService;
 
     @PostMapping(value = "/login", consumes = "application/json")
-    public ResponseEntity<?> login(@Valid @RequestBody UserDTO authenticationRequest) {
-        try{
-            return ResponseEntity.ok(userService.login(authenticationRequest));
-        }
-        catch(Exception e){
-            return (ResponseEntity<?>) ResponseEntity.badRequest();
-        }
+    public ResponseEntity<?> login(@Valid @RequestBody UserDTO authenticationRequest) throws AuthenticationException {
 
+        return ResponseEntity.ok(userService.login(authenticationRequest));
     }
 
     @PostMapping(value = "/register", consumes = "application/json")

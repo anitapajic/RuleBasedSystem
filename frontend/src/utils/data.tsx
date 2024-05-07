@@ -37,7 +37,7 @@ export const infoItems = [
   { label: "Phone", value: "+123456789" },
   { label: "Address", value: "Strumicka 6, Novi Sad" },
 ];
-export const navbarTitle = "BactiCure";
+export const navbarTitle = "Bacti Cure";
   
   export const menuOptions = [
     { href: "", value: "Home", role: "guest" },

@@ -8,6 +8,7 @@ import com.ftn.sbnz.repository.UserRepository;
 import com.ftn.sbnz.repository.RoleRepository;
 import com.ftn.sbnz.util.TokenUtils;
 import com.ftn.sbnz.util.exceptions.AlreadyExistisException;
+import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,18 +36,24 @@ public class UserService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    public UserTokenState login(UserDTO authenticationRequest) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                authenticationRequest.getEmail(), authenticationRequest.getPassword()));
+    public UserTokenState login(UserDTO authenticationRequest) throws AuthenticationException {
+        try{
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                    authenticationRequest.getEmail(), authenticationRequest.getPassword()));
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        User user = (User) authentication.getPrincipal();
+            User user = (User) authentication.getPrincipal();
 
-        String jwt = tokenUtils.generateToken(user);
-        int expiresIn = tokenUtils.getExpiredIn();
+            String jwt = tokenUtils.generateToken(user);
+            int expiresIn = tokenUtils.getExpiredIn();
 
-        return new UserTokenState(jwt, expiresIn, user.getRoles().get(0).getName(), user.getId());
+            return new UserTokenState(jwt, expiresIn, user.getRoles().get(0).getName(), user.getId());
+        }
+        catch(Exception e){
+            throw new AuthenticationException("aaaaa");
+        }
+
     }
 
     public UserDTO register(UserDTO userDTO) {
@@ -60,11 +67,9 @@ public class UserService {
         user.setRoles(Collections.singletonList(roleRepository.findByName(userDTO.getRole())));
         user.setName(userDTO.getName());
         user.setSurname(userDTO.getSurname());
-
-        System.out.println(user.getRoles().get(0).getName());
-        // TODO : Desi se timeout i pukne
         userRepository.save(user);
         userDTO.setId(user.getId());
+        userDTO.setPassword("");
         return userDTO;
     }
 
