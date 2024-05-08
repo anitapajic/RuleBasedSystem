@@ -12,7 +12,6 @@ import java.util.Set;
 
 @Entity
 @Table(name = "patients")
-@Inheritance(strategy = InheritanceType.JOINED)
 public class Patient extends User {
 
     @Column
@@ -27,9 +26,57 @@ public class Patient extends User {
             inverseJoinColumns = @JoinColumn(name = "allergen_id", referencedColumnName = "id"))
     private Set<Ingredient> allergens = new HashSet<>();
 
-    @OneToMany(mappedBy = "diagnosis", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Diagnosis> diagnosis = new HashSet<>();
 
+    //region Constructors
 
+    public Patient() {
+    }
+
+    public Patient(LocalDate birthDate, Double weight, Set<Ingredient> allergens, Set<Diagnosis> diagnosis) {
+        this.birthDate = birthDate;
+        this.weight = weight;
+        this.allergens = allergens;
+        this.diagnosis = diagnosis;
+    }
+
+    //endregion
+
+    //region Getters and Setters
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public Double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Double weight) {
+        this.weight = weight;
+    }
+
+    public Set<Ingredient> getAllergens() {
+        return allergens;
+    }
+
+    public void setAllergens(Set<Ingredient> allergens) {
+        this.allergens = allergens;
+    }
+
+    public Set<Diagnosis> getDiagnosis() {
+        return diagnosis;
+    }
+
+    public void setDiagnosis(Set<Diagnosis> diagnosis) {
+        this.diagnosis = diagnosis;
+    }
+
+    //endregion
 
 }

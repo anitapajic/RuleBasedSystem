@@ -1,6 +1,7 @@
 package com.ftn.sbnz.model.models.disease;
 
 import com.ftn.sbnz.model.models.confirmationTest.ConfirmationTest;
+import com.ftn.sbnz.model.models.confirmationTest.enums.TestType;
 import com.ftn.sbnz.model.models.medicine.Medicine;
 import com.ftn.sbnz.model.models.symptom.Symptom;
 import com.ftn.sbnz.model.models.user.Role;
@@ -37,5 +38,78 @@ public class Disease {
             joinColumns = @JoinColumn(name = "disease_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "medicine_id", referencedColumnName = "id"))
     private Set<Medicine> medicines = new HashSet<>();
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private TestType testType;
+
+    //region Constructors
+
+    public Disease() {
+    }
+
+    public Disease(Integer id, String name, Set<Symptom> symptoms, Set<ConfirmationTest> confirmationTests,
+                   Set<Medicine> medicines, TestType testType) {
+        this.id = id;
+        this.name = name;
+        this.symptoms = symptoms;
+        this.confirmationTests = confirmationTests;
+        this.medicines = medicines;
+        this.testType = testType;
+    }
+
+    //endregion
+
+    //region Getters and Setters
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Set<Symptom> getSymptoms() {
+        return symptoms;
+    }
+
+    public void setSymptoms(Set<Symptom> symptoms) {
+        this.symptoms = symptoms;
+    }
+
+    public Set<ConfirmationTest> getConfirmationTests() {
+        return confirmationTests;
+    }
+
+    public void setConfirmationTests(Set<ConfirmationTest> confirmationTests) {
+        this.confirmationTests = confirmationTests;
+    }
+
+    public Set<Medicine> getMedicines() {
+        return medicines;
+    }
+
+    public void setMedicines(Set<Medicine> medicines) {
+        this.medicines = medicines;
+    }
+
+    public TestType getTestType() {
+        return testType;
+    }
+
+    public void setTestType(TestType testType) {
+        this.testType = testType;
+    }
+
+    //endregion
 
 }

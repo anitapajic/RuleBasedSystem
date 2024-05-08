@@ -33,4 +33,72 @@ public class Therapy {
     @Column
     private Integer frequency;
 
+    //region Constructors
+
+    public Therapy() {
+    }
+
+    public Therapy(Integer id, Diagnosis diagnosis, Medicine medicine, DateRange dateRange, Integer milligrams,
+                   Integer frequency) {
+        this.id = id;
+        this.diagnosis = diagnosis;
+        this.medicine = medicine;
+        this.dateRange = dateRange;
+        this.milligrams = milligrams;
+        this.frequency = frequency;
+    }
+
+    //endregion
+
+    //region Getters and Setters
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Diagnosis getDiagnosis() {
+        return diagnosis;
+    }
+
+    public void setDiagnosis(Diagnosis diagnosis) {
+        this.diagnosis = diagnosis;
+    }
+
+    public Medicine getMedicine() {
+        return medicine;
+    }
+
+    public void setMedicine(Medicine medicine) {
+        this.medicine = medicine;
+    }
+
+    public DateRange getDateRange() {
+        return dateRange;
+    }
+
+    public void setDateRange(DateRange dateRange) {
+        this.dateRange = dateRange;
+    }
+
+    public Integer getMilligrams() {
+        return milligrams;
+    }
+
+    public void setMilligrams(Integer milligrams) {
+        this.milligrams = milligrams;
+    }
+
+    public Integer getFrequency() {
+        return frequency;
+    }
+
+    public void setFrequency(Integer frequency) {
+        this.frequency = frequency;
+    }
+
+    //endregion
 }
