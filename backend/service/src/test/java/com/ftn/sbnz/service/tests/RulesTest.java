@@ -24,7 +24,8 @@ public class RulesTest {
         Anamnesis anamnesis = new Anamnesis();
         Set<Symptom> symptoms = new HashSet<>();
         symptoms.add(new Symptom(2, "Povisena temperatura", SymptomLevel.LEVEL_1));
-        symptoms.add(new Symptom(3, "Bol u grlu", SymptomLevel.LEVEL_1));
+        //symptoms.add(new Symptom(3, "Bol u grlu", SymptomLevel.LEVEL_1));
+        symptoms.add(new Symptom(4, "Zbunjenost ili promene u ponasanju", SymptomLevel.LEVEL_2));
         anamnesis.setPatientsSymptoms(symptoms);
 
         findDisease(anamnesis);
@@ -47,7 +48,10 @@ public class RulesTest {
         kieSession.fireAllRules();
         kieSession.dispose();
 
-        System.out.println(anamnesisEvaluation.getLevel1Symptoms());
+//        System.out.println(anamnesisEvaluation.getLevel1Symptoms());
+//        System.out.println(anamnesisEvaluation.getLevel2Symptoms());
+//        System.out.println(anamnesisEvaluation.getSymptomsProcessed());
+        System.out.println(anamnesisEvaluation.isBloodAnalysisNeeded());
         // videti sta vracati
 
     }

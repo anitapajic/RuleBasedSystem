@@ -4,6 +4,8 @@ import com.ftn.sbnz.model.models.anamnesis.Anamnesis
 import com.ftn.sbnz.model.models.anamnesis.AnamnesisEvaluation
 import com.ftn.sbnz.model.models.symptom.Symptom
 
+import java.lang.Integer
+
 
 //Level 1 symptoms --------------------------------------------------------------------------------------
 rule "Patient has sore throat"
@@ -43,6 +45,7 @@ rule "Patient has cough"
         $anamnesisEvaluation: AnamnesisEvaluation()
         Symptom(name == "Kasalj") from $symptoms
     then
+         
         modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
 end
 
@@ -53,6 +56,7 @@ rule "Patient has chills"
         $anamnesisEvaluation: AnamnesisEvaluation()
         Symptom(name == "Zimica") from $symptoms
     then
+         
         modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
 end
 
@@ -63,6 +67,7 @@ rule "Patient has chest pain"
         $anamnesisEvaluation: AnamnesisEvaluation()
         Symptom(name == "Bolovi u grudima") from $symptoms
     then
+         
         modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
 end
 
@@ -73,6 +78,7 @@ rule "Patient has difficulty breathing"
         $anamnesisEvaluation: AnamnesisEvaluation()
         Symptom(name == "Otezano disanje") from $symptoms
     then
+         
         modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
 end
 
@@ -83,6 +89,7 @@ rule "Patient has chronic cough with bloody sputum"
         $anamnesisEvaluation: AnamnesisEvaluation()
         Symptom(name == "Hronican kasalj sa krvavom pljuvackom") from $symptoms
     then
+         
         modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
 end
 
@@ -93,6 +100,7 @@ rule "Patient has weight loss"
         $anamnesisEvaluation: AnamnesisEvaluation()
         Symptom(name == "Gubitak telesne tezine") from $symptoms
     then
+         
         modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
 end
 
@@ -103,6 +111,7 @@ rule "Patient has night sweats"
         $anamnesisEvaluation: AnamnesisEvaluation()
         Symptom(name == "Nocno znojenje") from $symptoms
     then
+         
         modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
 end
 
@@ -113,6 +122,7 @@ rule "Patient has diarrhea"
         $anamnesisEvaluation: AnamnesisEvaluation()
         Symptom(name == "Dijareja") from $symptoms
     then
+         
         modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
 end
 
@@ -123,6 +133,7 @@ rule "Patient has abdominal pain"
         $anamnesisEvaluation: AnamnesisEvaluation()
         Symptom(name == "Bolovi u stomaku") from $symptoms
     then
+         
         modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
 end
 
@@ -133,6 +144,7 @@ rule "Patient has vomiting"
         $anamnesisEvaluation: AnamnesisEvaluation()
         Symptom(name == "Povracanje") from $symptoms
     then
+         
         modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
 end
 
@@ -143,6 +155,7 @@ rule "Patient has severe headache"
         $anamnesisEvaluation: AnamnesisEvaluation()
         Symptom(name == "Jaka glavobolja") from $symptoms
     then
+         
         modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
 end
 
@@ -153,6 +166,7 @@ rule "Patient has rash"
         $anamnesisEvaluation: AnamnesisEvaluation()
         Symptom(name == "Pojava osipa") from $symptoms
     then
+         
         modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
 end
 
@@ -165,7 +179,8 @@ rule "Patient has white spots on tonsils"
         $anamnesisEvaluation: AnamnesisEvaluation()
         Symptom(name == "Belicaste tacke na krajnicima") from $symptoms
     then
-        modify($anamnesisEvaluation){ setLevel2Symptoms($anamnesisEvaluation.getLevel2Symptoms() + 1) }
+         
+       modify($anamnesisEvaluation){ setLevel2Symptoms($anamnesisEvaluation.getLevel2Symptoms() + 1) }
 end
 
 rule "Patient has throat redness"
@@ -175,6 +190,7 @@ rule "Patient has throat redness"
         $anamnesisEvaluation: AnamnesisEvaluation()
         Symptom(name == "Crvenilo grla") from $symptoms
     then
+         
         modify($anamnesisEvaluation){ setLevel2Symptoms($anamnesisEvaluation.getLevel2Symptoms() + 1) }
 end
 
@@ -185,6 +201,7 @@ rule "Patient has painful lymph nodes"
         $anamnesisEvaluation: AnamnesisEvaluation()
         Symptom(name == "Bolni limfni cvorovi") from $symptoms
     then
+         
         modify($anamnesisEvaluation){ setLevel2Symptoms($anamnesisEvaluation.getLevel2Symptoms() + 1) }
 end
 
@@ -195,6 +212,7 @@ rule "Patient has crackling in lungs"
         $anamnesisEvaluation: AnamnesisEvaluation()
         Symptom(name == "Krckanje u plucima") from $symptoms
     then
+         
         modify($anamnesisEvaluation){ setLevel2Symptoms($anamnesisEvaluation.getLevel2Symptoms() + 1) }
 end
 
@@ -205,6 +223,7 @@ rule "Patient has neck stiffness"
         $anamnesisEvaluation: AnamnesisEvaluation()
         Symptom(name == "Ukocenost vrata") from $symptoms
     then
+         
         modify($anamnesisEvaluation){ setLevel2Symptoms($anamnesisEvaluation.getLevel2Symptoms() + 1) }
 end
 
@@ -215,8 +234,30 @@ rule "Patient has confusion or behavior changes"
         $anamnesisEvaluation: AnamnesisEvaluation()
         Symptom(name == "Zbunjenost ili promene u ponasanju") from $symptoms
     then
+         
         modify($anamnesisEvaluation){ setLevel2Symptoms($anamnesisEvaluation.getLevel2Symptoms() + 1) }
 end
+
+// OTHER RULES
+rule "All symptoms processed and should go for blood testing"
+    when
+        $anamnesisEvaluation: AnamnesisEvaluation($level1Symptoms: level1Symptoms, $level2Symptoms: level2Symptoms, bloodAnalysisNeeded == false)
+        $anamnesis: Anamnesis(patientsSymptoms.size() == $level1Symptoms + $level2Symptoms)
+        Boolean(booleanValue == true) from $level1Symptoms >= 2 && $level2Symptoms >= 1
+    then
+        modify($anamnesisEvaluation){setBloodAnalysisNeeded(true)}
+        //System.out.println("All symptoms processed and should go for blood testing");
+end
+
+rule "All symptoms processed and should not go for blood testing"
+    when
+        $anamnesisEvaluation: AnamnesisEvaluation($level1Symptoms: level1Symptoms, $level2Symptoms: level2Symptoms, bloodAnalysisNeeded == false)
+        $anamnesis: Anamnesis(patientsSymptoms.size() == $level1Symptoms + $level2Symptoms)
+        Boolean(booleanValue == false) from $level1Symptoms >= 2 && $level2Symptoms >= 1
+    then
+        System.out.println("All symptoms processed and should not go for blood testing");
+end
+
 
 
 
