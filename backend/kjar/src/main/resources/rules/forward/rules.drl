@@ -156,5 +156,67 @@ rule "Patient has rash"
         modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
 end
 
+//Level 2 symptoms --------------------------------------------------------------------------------------
+
+rule "Patient has white spots on tonsils"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Belicaste tacke na krajnicima") from $symptoms
+    then
+        modify($anamnesisEvaluation){ setLevel2Symptoms($anamnesisEvaluation.getLevel2Symptoms() + 1) }
+end
+
+rule "Patient has throat redness"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Crvenilo grla") from $symptoms
+    then
+        modify($anamnesisEvaluation){ setLevel2Symptoms($anamnesisEvaluation.getLevel2Symptoms() + 1) }
+end
+
+rule "Patient has painful lymph nodes"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Bolni limfni cvorovi") from $symptoms
+    then
+        modify($anamnesisEvaluation){ setLevel2Symptoms($anamnesisEvaluation.getLevel2Symptoms() + 1) }
+end
+
+rule "Patient has crackling in lungs"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Krckanje u plucima") from $symptoms
+    then
+        modify($anamnesisEvaluation){ setLevel2Symptoms($anamnesisEvaluation.getLevel2Symptoms() + 1) }
+end
+
+rule "Patient has neck stiffness"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Ukocenost vrata") from $symptoms
+    then
+        modify($anamnesisEvaluation){ setLevel2Symptoms($anamnesisEvaluation.getLevel2Symptoms() + 1) }
+end
+
+rule "Patient has confusion or behavior changes"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Zbunjenost ili promene u ponasanju") from $symptoms
+    then
+        modify($anamnesisEvaluation){ setLevel2Symptoms($anamnesisEvaluation.getLevel2Symptoms() + 1) }
+end
+
 
 
