@@ -1,0 +1,160 @@
+package rules.forward;
+dialect  "mvel"
+import com.ftn.sbnz.model.models.anamnesis.Anamnesis
+import com.ftn.sbnz.model.models.anamnesis.AnamnesisEvaluation
+import com.ftn.sbnz.model.models.symptom.Symptom
+
+
+//Level 1 symptoms --------------------------------------------------------------------------------------
+rule "Patient has sore throat"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Bol u grlu") from $symptoms
+    then
+        modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
+end
+
+rule "Patient has difficulty swallowing"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Poteskoce pri gutanju") from $symptoms
+    then
+        modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
+end
+
+rule "Patient has high temperature"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Povisena temperatura") from $symptoms
+    then
+        modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
+end
+
+rule "Patient has cough"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Kasalj") from $symptoms
+    then
+        modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
+end
+
+rule "Patient has chills"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Zimica") from $symptoms
+    then
+        modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
+end
+
+rule "Patient has chest pain"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Bolovi u grudima") from $symptoms
+    then
+        modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
+end
+
+rule "Patient has difficulty breathing"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Otezano disanje") from $symptoms
+    then
+        modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
+end
+
+rule "Patient has chronic cough with bloody sputum"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Hronican kasalj sa krvavom pljuvackom") from $symptoms
+    then
+        modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
+end
+
+rule "Patient has weight loss"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Gubitak telesne tezine") from $symptoms
+    then
+        modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
+end
+
+rule "Patient has night sweats"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Nocno znojenje") from $symptoms
+    then
+        modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
+end
+
+rule "Patient has diarrhea"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Dijareja") from $symptoms
+    then
+        modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
+end
+
+rule "Patient has abdominal pain"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Bolovi u stomaku") from $symptoms
+    then
+        modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
+end
+
+rule "Patient has vomiting"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Povracanje") from $symptoms
+    then
+        modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
+end
+
+rule "Patient has severe headache"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Jaka glavobolja") from $symptoms
+    then
+        modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
+end
+
+rule "Patient has rash"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Pojava osipa") from $symptoms
+    then
+        modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
+end
+
+
+

@@ -8,6 +8,7 @@ import com.ftn.sbnz.repository.UserRepository;
 import com.ftn.sbnz.repository.RoleRepository;
 import com.ftn.sbnz.util.TokenUtils;
 import com.ftn.sbnz.util.exceptions.AlreadyExistisException;
+import com.ftn.sbnz.util.exceptions.ResourceNotFoundException;
 import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -82,6 +83,10 @@ public class UserService {
 
     public User getByEmail(String email){
         return userRepository.findByEmail(email);
+    }
+
+    public User findById(Integer id){
+        return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("This user doesn't exist"));
     }
 
 }
