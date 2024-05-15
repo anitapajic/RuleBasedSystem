@@ -346,6 +346,89 @@ rule "Patient has tuberkolosis"
         System.out.println("inserted probability: " + ($simptomi.doubleValue() / $diseaseSymptoms.size()) + " for disease: Tuberkoloza");
 end
 
+rule "Patient has salmonelosis"
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms) //pacijentovi simptomi
+        $anamnesisEvaluation: AnamnesisEvaluation(bloodAnalysisResult==true)
+        $disease: Disease(name == "Salmoneloza", $diseaseSymptoms: symptoms)
+
+        $diseaseSymptomsString: List() from accumulate(
+                Symptom($symptomName: name) from $diseaseSymptoms,
+                collectList($symptomName)
+        )
+        $simptomi: Number(intValue>=0) from accumulate (
+            Symptom(name memberOf $diseaseSymptomsString) from $symptoms,
+            count(1)
+        )
+    then
+        insert(new DiseaseProbability($disease, new Double($simptomi.doubleValue() / $diseaseSymptoms.size())));
+        System.out.println("inserted probability: " + ($simptomi.doubleValue() / $diseaseSymptoms.size()) + " for disease: Salmoneloza");
+
+end
+
+rule "Patient has meningitis"
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms) //pacijentovi simptomi
+        $anamnesisEvaluation: AnamnesisEvaluation(bloodAnalysisResult==true)
+        $disease: Disease(name == "Meningitis", $diseaseSymptoms: symptoms)
+
+        $diseaseSymptomsString: List() from accumulate(
+                Symptom($symptomName: name) from $diseaseSymptoms,
+                collectList($symptomName)
+        )
+        $simptomi: Number(intValue>=0) from accumulate (
+            Symptom(name memberOf $diseaseSymptomsString) from $symptoms,
+            count(1)
+        )
+    then
+        insert(new DiseaseProbability($disease, new Double($simptomi.doubleValue() / $diseaseSymptoms.size())));
+        System.out.println("inserted probability: " + ($simptomi.doubleValue() / $diseaseSymptoms.size()) + " for disease: Meningitis");
+
+end
+
+rule "Select Disease With Highest Probability Based On Symptoms Count Rule"
+    no-loop
+    when
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        $selectedDisease: DiseaseProbability() from accumulate (
+            $diseaseProbability: DiseaseProbability($probability: probability, $symptomsCount: disease.symptoms.size()),
+            init(double highestProbability = 0.0; DiseaseProbability highestProbabilityDisease = null;),
+            action(
+                if (highestProbabilityDisease == null || $probability > highestProbability || (highestProbability == $probability && $symptomsCount > highestProbabilityDisease.getDisease().getSymptoms().size())) {
+                     highestProbability = $probability;
+                     highestProbabilityDisease = $diseaseProbability;
+                 }
+             ),
+            result(highestProbabilityDisease)
+        )
+    then
+        System.out.println("Highest probability for disease " + $selectedDisease.getDisease().getName() + " (" + $selectedDisease.getProbability() * 100 + "%)");
+        modify($anamnesisEvaluation){
+                setPossibleDiseaseName($selectedDisease.disease.name),
+                setConfirmationTestNeeded(true)
+        }
+end
+
+// Confirmation test
+
+rule "Doing confirmation test"
+    when
+        $anamnesisEvaluation: AnamnesisEvaluation(confirmationTestNeeded==true, possibleDiseaseName!=null)
+    then
+        System.out.println("Doing the confirmation test...");
+        Random random = new Random();
+        boolean randomValue = random.nextInt(5) != 0; // True u 4/5 slucajeva
+        modify($anamnesisEvaluation) {
+            setConfirmationTestResult(randomValue)
+        };
+        if(randomValue) {
+                System.out.println("Diagnose is POSITIVE!");
+            } else {
+                System.out.println("Diagnose is NEGATIVE!");
+            }
+end
+
+
 
 
 

@@ -30,5 +30,19 @@ when
 end
 
 
+rule "Generate Emergency Intervention"
+no-loop
+when
+    $alarm : Alarm($patientId: patientId, $temperatureValue: temperatureValue, $patientName: patientName)
+    not TemperatureEvent(
+        patientId == $patientId,
+        temperatureValue < 38.5,
+        this after[0s, 2h] $alarm
+    )
+then
+    System.out.println("Potrebna je hitna intervencija za pacijenta: " + $patientName + " zbog visoke temperature od " + $temperatureValue);
+end
+
+
 
 
