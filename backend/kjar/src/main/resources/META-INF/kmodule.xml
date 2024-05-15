@@ -5,4 +5,7 @@
     <kbase name="cepRules" eventProcessingMode="stream" packages="cep">
         <ksession name="cepRulesKsession" clockType="pseudo"/>
     </kbase>
+    <kbase name="backwardRules" eventProcessingMode="stream" packages="backward">
+        <ksession name="backwardRulesKsession"/>
+    </kbase>
 </kmodule>

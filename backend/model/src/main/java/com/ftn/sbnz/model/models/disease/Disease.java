@@ -58,6 +58,13 @@ public class Disease {
         this.testType = testType;
     }
 
+    public Disease(Integer id, String name, Set<Symptom> symptoms, TestType testType) {
+        this.id = id;
+        this.name = name;
+        this.symptoms = symptoms;
+        this.testType = testType;
+    }
+
     //endregion
 
     //region Getters and Setters

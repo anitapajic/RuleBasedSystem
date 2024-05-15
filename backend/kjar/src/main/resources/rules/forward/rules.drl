@@ -3,9 +3,16 @@ dialect  "mvel"
 import com.ftn.sbnz.model.models.anamnesis.Anamnesis
 import com.ftn.sbnz.model.models.anamnesis.AnamnesisEvaluation
 import com.ftn.sbnz.model.models.symptom.Symptom
+import com.ftn.sbnz.model.models.disease.Disease
+import com.ftn.sbnz.model.models.disease.DiseaseProbability
+import com.ftn.sbnz.service.disease.DiseaseService
+import com.ftn.sbnz.repository.DiseaseRepository
 
 import java.lang.Integer
+import java.util.Random
+import java.util.List;
 
+global DiseaseService diseaseService;
 
 //Level 1 symptoms --------------------------------------------------------------------------------------
 rule "Patient has sore throat"
@@ -234,11 +241,10 @@ rule "Patient has confusion or behavior changes"
         $anamnesisEvaluation: AnamnesisEvaluation()
         Symptom(name == "Zbunjenost ili promene u ponasanju") from $symptoms
     then
-         
         modify($anamnesisEvaluation){ setLevel2Symptoms($anamnesisEvaluation.getLevel2Symptoms() + 1) }
 end
 
-// OTHER RULES
+// BLOOD ANALASYS
 rule "All symptoms processed and should go for blood testing"
     when
         $anamnesisEvaluation: AnamnesisEvaluation($level1Symptoms: level1Symptoms, $level2Symptoms: level2Symptoms, bloodAnalysisNeeded == false)
@@ -246,7 +252,7 @@ rule "All symptoms processed and should go for blood testing"
         Boolean(booleanValue == true) from $level1Symptoms >= 2 && $level2Symptoms >= 1
     then
         modify($anamnesisEvaluation){setBloodAnalysisNeeded(true)}
-        //System.out.println("All symptoms processed and should go for blood testing");
+        System.out.println("All symptoms processed and should go for blood testing");
 end
 
 rule "All symptoms processed and should not go for blood testing"
@@ -257,6 +263,92 @@ rule "All symptoms processed and should not go for blood testing"
     then
         System.out.println("All symptoms processed and should not go for blood testing");
 end
+
+rule "Blood analysis"
+    no-loop
+    when
+        $anamnesisEvaluation: AnamnesisEvaluation(bloodAnalysisNeeded == true)
+        Boolean(booleanValue == false) from $anamnesisEvaluation.isBloodAnalysisResult()
+    then
+        Random random = new Random();
+        boolean randomValue = random.nextInt(5) != 0; // True u 4/5 slucajeva
+        modify($anamnesisEvaluation) {
+            setBloodAnalysisResult(randomValue)
+        };
+        if(randomValue) {
+                System.out.println("Number of leukocytes is high. It is a bacterial infection!");
+            } else {
+                System.out.println("Number of leukocytes is low. It is not a bacterial infection!");
+            }
+end
+
+// DISEASES
+
+rule "Patient has streptococcal sore throat"
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms) //pacijentovi simptomi
+        $anamnesisEvaluation: AnamnesisEvaluation(bloodAnalysisResult==true)
+        $disease: Disease(name == "Streptokokna upala grla", $diseaseSymptoms: symptoms)
+
+        $diseaseSymptomsString: List() from accumulate(
+                Symptom($symptomName: name) from $diseaseSymptoms,
+                collectList($symptomName)
+        )
+        $simptomi: Number(intValue>=0) from accumulate (
+            Symptom(name memberOf $diseaseSymptomsString) from $symptoms,
+            count(1)
+        )
+
+    then
+        insert(new DiseaseProbability($disease, new Double($simptomi.doubleValue() / $diseaseSymptoms.size())));
+        System.out.println("inserted probability: " + ($simptomi.doubleValue() / $diseaseSymptoms.size()) + " for disease: Streptokokna upala grla");
+
+end
+
+
+
+rule "Patient has bacterial pneunomia"
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms) //pacijentovi simptomi
+        $anamnesisEvaluation: AnamnesisEvaluation(bloodAnalysisResult==true)
+        $disease: Disease(name == "Bakterijska pneumonija", $diseaseSymptoms: symptoms)
+
+        $diseaseSymptomsString: List() from accumulate(
+                Symptom($symptomName: name) from $diseaseSymptoms,
+                collectList($symptomName)
+        )
+        $simptomi: Number(intValue>=0) from accumulate (
+            Symptom(name memberOf $diseaseSymptomsString) from $symptoms,
+            count(1)
+        )
+    then
+        insert(new DiseaseProbability($disease, new Double($simptomi.doubleValue() / $diseaseSymptoms.size())));
+        System.out.println("inserted probability: " + ($simptomi.doubleValue() / $diseaseSymptoms.size()) + " for disease: Bakterijska pneumonija");
+
+end
+
+rule "Patient has tuberkolosis"
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms) //pacijentovi simptomi
+        $anamnesisEvaluation: AnamnesisEvaluation(bloodAnalysisResult==true)
+        $disease: Disease(name == "Tuberkoloza", $diseaseSymptoms: symptoms)
+
+        $diseaseSymptomsString: List() from accumulate(
+                Symptom($symptomName: name) from $diseaseSymptoms,
+                collectList($symptomName)
+        )
+        $simptomi: Number(intValue>=0) from accumulate (
+            Symptom(name memberOf $diseaseSymptomsString) from $symptoms,
+            count(1)
+        )
+    then
+        insert(new DiseaseProbability($disease, new Double($simptomi.doubleValue() / $diseaseSymptoms.size())));
+        System.out.println("inserted probability: " + ($simptomi.doubleValue() / $diseaseSymptoms.size()) + " for disease: Tuberkoloza");
+end
+
+
+
+
 
 
 
