@@ -3,6 +3,8 @@ package backward;
 import com.ftn.sbnz.model.models.backwardModel.BackwardModel;
 import com.ftn.sbnz.model.models.backwardModel.BackwardType;
 
+global String ingredientGlobal;
+
 
 query pronadji(String sastojak, String lek)
     BackwardModel(sastojak, lek; )
@@ -12,7 +14,7 @@ end
 
 rule "go4"
 when
-    $model: BackwardModel($ingredient: ingredient != "Sastojak S1", $medicine:medicine, backwardType == BackwardType.MEDICINE)
+    $model: BackwardModel($ingredient: ingredient != ingredientGlobal, $medicine:medicine, backwardType == BackwardType.MEDICINE)
     not BackwardModel(ingredient == "Sastojak S1", medicine == $medicine)
     pronadji($ingredient, $medicine; )
 then

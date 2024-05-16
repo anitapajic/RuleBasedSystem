@@ -27,7 +27,7 @@ public class BackwardTest {
         KieServices ks = KieServices.Factory.get();
         KieContainer kContainer = ks.getKieClasspathContainer();
         KieSession ksession = kContainer.newKieSession("backwardRulesKsession");
-
+        ksession.setGlobal("ingredientGlobal", "Sastojak S1");
 
         ksession.insert(new BackwardModel("Lek A", "Infekcija", BackwardType.DISEASE));
         ksession.insert(new BackwardModel("Lek B", "Infekcija", BackwardType.DISEASE));

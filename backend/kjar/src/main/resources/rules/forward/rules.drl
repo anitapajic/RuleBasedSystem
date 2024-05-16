@@ -390,17 +390,12 @@ rule "Select Disease With Highest Probability Based On Symptoms Count Rule"
     no-loop
     when
         $anamnesisEvaluation: AnamnesisEvaluation()
-        $selectedDisease: DiseaseProbability() from accumulate (
+        $maxProb: Number() from accumulate (
             $diseaseProbability: DiseaseProbability($probability: probability, $symptomsCount: disease.symptoms.size()),
-            init(double highestProbability = 0.0; DiseaseProbability highestProbabilityDisease = null;),
-            action(
-                if (highestProbabilityDisease == null || $probability > highestProbability || (highestProbability == $probability && $symptomsCount > highestProbabilityDisease.getDisease().getSymptoms().size())) {
-                     highestProbability = $probability;
-                     highestProbabilityDisease = $diseaseProbability;
-                 }
-             ),
-            result(highestProbabilityDisease)
+            max($probability)
         )
+        $selectedDisease: DiseaseProbability(probability == $maxProb)
+
     then
         System.out.println("Highest probability for disease " + $selectedDisease.getDisease().getName() + " (" + $selectedDisease.getProbability() * 100 + "%)");
         modify($anamnesisEvaluation){
