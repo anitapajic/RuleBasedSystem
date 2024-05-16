@@ -1,0 +1,433 @@
+package rules.forward;
+dialect  "mvel"
+import com.ftn.sbnz.model.models.anamnesis.Anamnesis
+import com.ftn.sbnz.model.models.anamnesis.AnamnesisEvaluation
+import com.ftn.sbnz.model.models.symptom.Symptom
+import com.ftn.sbnz.model.models.disease.Disease
+import com.ftn.sbnz.model.models.disease.DiseaseProbability
+import com.ftn.sbnz.service.disease.DiseaseService
+import com.ftn.sbnz.repository.DiseaseRepository
+
+import java.lang.Integer
+import java.util.Random
+import java.util.List;
+
+global DiseaseService diseaseService;
+
+//Level 1 symptoms --------------------------------------------------------------------------------------
+rule "Patient has sore throat"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Bol u grlu") from $symptoms
+    then
+        modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
+end
+
+rule "Patient has difficulty swallowing"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Poteskoce pri gutanju") from $symptoms
+    then
+        modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
+end
+
+rule "Patient has high temperature"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Povisena temperatura") from $symptoms
+    then
+        modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
+end
+
+rule "Patient has cough"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Kasalj") from $symptoms
+    then
+         
+        modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
+end
+
+rule "Patient has chills"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Zimica") from $symptoms
+    then
+         
+        modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
+end
+
+rule "Patient has chest pain"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Bolovi u grudima") from $symptoms
+    then
+         
+        modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
+end
+
+rule "Patient has difficulty breathing"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Otezano disanje") from $symptoms
+    then
+         
+        modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
+end
+
+rule "Patient has chronic cough with bloody sputum"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Hronican kasalj sa krvavom pljuvackom") from $symptoms
+    then
+         
+        modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
+end
+
+rule "Patient has weight loss"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Gubitak telesne tezine") from $symptoms
+    then
+         
+        modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
+end
+
+rule "Patient has night sweats"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Nocno znojenje") from $symptoms
+    then
+         
+        modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
+end
+
+rule "Patient has diarrhea"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Dijareja") from $symptoms
+    then
+         
+        modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
+end
+
+rule "Patient has abdominal pain"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Bolovi u stomaku") from $symptoms
+    then
+         
+        modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
+end
+
+rule "Patient has vomiting"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Povracanje") from $symptoms
+    then
+         
+        modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
+end
+
+rule "Patient has severe headache"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Jaka glavobolja") from $symptoms
+    then
+         
+        modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
+end
+
+rule "Patient has rash"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Pojava osipa") from $symptoms
+    then
+         
+        modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
+end
+
+//Level 2 symptoms --------------------------------------------------------------------------------------
+
+rule "Patient has white spots on tonsils"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Belicaste tacke na krajnicima") from $symptoms
+    then
+         
+       modify($anamnesisEvaluation){ setLevel2Symptoms($anamnesisEvaluation.getLevel2Symptoms() + 1) }
+end
+
+rule "Patient has throat redness"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Crvenilo grla") from $symptoms
+    then
+         
+        modify($anamnesisEvaluation){ setLevel2Symptoms($anamnesisEvaluation.getLevel2Symptoms() + 1) }
+end
+
+rule "Patient has painful lymph nodes"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Bolni limfni cvorovi") from $symptoms
+    then
+         
+        modify($anamnesisEvaluation){ setLevel2Symptoms($anamnesisEvaluation.getLevel2Symptoms() + 1) }
+end
+
+rule "Patient has crackling in lungs"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Krckanje u plucima") from $symptoms
+    then
+         
+        modify($anamnesisEvaluation){ setLevel2Symptoms($anamnesisEvaluation.getLevel2Symptoms() + 1) }
+end
+
+rule "Patient has neck stiffness"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Ukocenost vrata") from $symptoms
+    then
+         
+        modify($anamnesisEvaluation){ setLevel2Symptoms($anamnesisEvaluation.getLevel2Symptoms() + 1) }
+end
+
+rule "Patient has confusion or behavior changes"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Zbunjenost ili promene u ponasanju") from $symptoms
+    then
+        modify($anamnesisEvaluation){ setLevel2Symptoms($anamnesisEvaluation.getLevel2Symptoms() + 1) }
+end
+
+// BLOOD ANALASYS
+rule "All symptoms processed and should go for blood testing"
+    when
+        $anamnesisEvaluation: AnamnesisEvaluation($level1Symptoms: level1Symptoms, $level2Symptoms: level2Symptoms, bloodAnalysisNeeded == false)
+        $anamnesis: Anamnesis(patientsSymptoms.size() == $level1Symptoms + $level2Symptoms)
+        Boolean(booleanValue == true) from $level1Symptoms >= 2 && $level2Symptoms >= 1
+    then
+        modify($anamnesisEvaluation){setBloodAnalysisNeeded(true)}
+        System.out.println("All symptoms processed and should go for blood testing");
+end
+
+rule "All symptoms processed and should not go for blood testing"
+    when
+        $anamnesisEvaluation: AnamnesisEvaluation($level1Symptoms: level1Symptoms, $level2Symptoms: level2Symptoms, bloodAnalysisNeeded == false)
+        $anamnesis: Anamnesis(patientsSymptoms.size() == $level1Symptoms + $level2Symptoms)
+        Boolean(booleanValue == false) from $level1Symptoms >= 2 && $level2Symptoms >= 1
+    then
+        System.out.println("All symptoms processed and should not go for blood testing");
+end
+
+rule "Blood analysis"
+    no-loop
+    when
+        $anamnesisEvaluation: AnamnesisEvaluation(bloodAnalysisNeeded == true)
+        Boolean(booleanValue == false) from $anamnesisEvaluation.isBloodAnalysisResult()
+    then
+        Random random = new Random();
+        boolean randomValue = random.nextInt(5) != 0; // True u 4/5 slucajeva
+        modify($anamnesisEvaluation) {
+            setBloodAnalysisResult(randomValue)
+        };
+        if(randomValue) {
+                System.out.println("Number of leukocytes is high. It is a bacterial infection!");
+            } else {
+                System.out.println("Number of leukocytes is low. It is not a bacterial infection!");
+            }
+end
+
+// DISEASES
+
+rule "Patient has streptococcal sore throat"
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms) //pacijentovi simptomi
+        $anamnesisEvaluation: AnamnesisEvaluation(bloodAnalysisResult==true)
+        $disease: Disease(name == "Streptokokna upala grla", $diseaseSymptoms: symptoms)
+
+        $diseaseSymptomsString: List() from accumulate(
+                Symptom($symptomName: name) from $diseaseSymptoms,
+                collectList($symptomName)
+        )
+        $simptomi: Number(intValue>=0) from accumulate (
+            Symptom(name memberOf $diseaseSymptomsString) from $symptoms,
+            count(1)
+        )
+
+    then
+        insert(new DiseaseProbability($disease, new Double($simptomi.doubleValue() / $diseaseSymptoms.size())));
+        System.out.println("inserted probability: " + ($simptomi.doubleValue() / $diseaseSymptoms.size()) + " for disease: Streptokokna upala grla");
+
+end
+
+
+
+rule "Patient has bacterial pneunomia"
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms) //pacijentovi simptomi
+        $anamnesisEvaluation: AnamnesisEvaluation(bloodAnalysisResult==true)
+        $disease: Disease(name == "Bakterijska pneumonija", $diseaseSymptoms: symptoms)
+
+        $diseaseSymptomsString: List() from accumulate(
+                Symptom($symptomName: name) from $diseaseSymptoms,
+                collectList($symptomName)
+        )
+        $simptomi: Number(intValue>=0) from accumulate (
+            Symptom(name memberOf $diseaseSymptomsString) from $symptoms,
+            count(1)
+        )
+    then
+        insert(new DiseaseProbability($disease, new Double($simptomi.doubleValue() / $diseaseSymptoms.size())));
+        System.out.println("inserted probability: " + ($simptomi.doubleValue() / $diseaseSymptoms.size()) + " for disease: Bakterijska pneumonija");
+
+end
+
+rule "Patient has tuberkolosis"
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms) //pacijentovi simptomi
+        $anamnesisEvaluation: AnamnesisEvaluation(bloodAnalysisResult==true)
+        $disease: Disease(name == "Tuberkoloza", $diseaseSymptoms: symptoms)
+
+        $diseaseSymptomsString: List() from accumulate(
+                Symptom($symptomName: name) from $diseaseSymptoms,
+                collectList($symptomName)
+        )
+        $simptomi: Number(intValue>=0) from accumulate (
+            Symptom(name memberOf $diseaseSymptomsString) from $symptoms,
+            count(1)
+        )
+    then
+        insert(new DiseaseProbability($disease, new Double($simptomi.doubleValue() / $diseaseSymptoms.size())));
+        System.out.println("inserted probability: " + ($simptomi.doubleValue() / $diseaseSymptoms.size()) + " for disease: Tuberkoloza");
+end
+
+rule "Patient has salmonelosis"
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms) //pacijentovi simptomi
+        $anamnesisEvaluation: AnamnesisEvaluation(bloodAnalysisResult==true)
+        $disease: Disease(name == "Salmoneloza", $diseaseSymptoms: symptoms)
+
+        $diseaseSymptomsString: List() from accumulate(
+                Symptom($symptomName: name) from $diseaseSymptoms,
+                collectList($symptomName)
+        )
+        $simptomi: Number(intValue>=0) from accumulate (
+            Symptom(name memberOf $diseaseSymptomsString) from $symptoms,
+            count(1)
+        )
+    then
+        insert(new DiseaseProbability($disease, new Double($simptomi.doubleValue() / $diseaseSymptoms.size())));
+        System.out.println("inserted probability: " + ($simptomi.doubleValue() / $diseaseSymptoms.size()) + " for disease: Salmoneloza");
+
+end
+
+rule "Patient has meningitis"
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms) //pacijentovi simptomi
+        $anamnesisEvaluation: AnamnesisEvaluation(bloodAnalysisResult==true)
+        $disease: Disease(name == "Meningitis", $diseaseSymptoms: symptoms)
+
+        $diseaseSymptomsString: List() from accumulate(
+                Symptom($symptomName: name) from $diseaseSymptoms,
+                collectList($symptomName)
+        )
+        $simptomi: Number(intValue>=0) from accumulate (
+            Symptom(name memberOf $diseaseSymptomsString) from $symptoms,
+            count(1)
+        )
+    then
+        insert(new DiseaseProbability($disease, new Double($simptomi.doubleValue() / $diseaseSymptoms.size())));
+        System.out.println("inserted probability: " + ($simptomi.doubleValue() / $diseaseSymptoms.size()) + " for disease: Meningitis");
+
+end
+
+rule "Select Disease With Highest Probability Based On Symptoms Count Rule"
+    no-loop
+    when
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        $maxProb: Number() from accumulate (
+            $diseaseProbability: DiseaseProbability($probability: probability, $symptomsCount: disease.symptoms.size()),
+            max($probability)
+        )
+        $selectedDisease: DiseaseProbability(probability == $maxProb)
+
+    then
+        System.out.println("Highest probability for disease " + $selectedDisease.getDisease().getName() + " (" + $selectedDisease.getProbability() * 100 + "%)");
+        modify($anamnesisEvaluation){
+                setPossibleDiseaseName($selectedDisease.disease.name),
+                setConfirmationTestNeeded(true)
+        }
+end
+
+// Confirmation test
+
+rule "Doing confirmation test"
+    when
+        $anamnesisEvaluation: AnamnesisEvaluation(confirmationTestNeeded==true, possibleDiseaseName!=null)
+    then
+        System.out.println("Doing the confirmation test...");
+        Random random = new Random();
+        boolean randomValue = random.nextInt(5) != 0; // True u 4/5 slucajeva
+        modify($anamnesisEvaluation) {
+            setConfirmationTestResult(randomValue)
+        };
+        if(randomValue) {
+                System.out.println("Diagnose is POSITIVE!");
+            } else {
+                System.out.println("Diagnose is NEGATIVE!");
+            }
+end
+
+
+
+
+
+
+
+
+
