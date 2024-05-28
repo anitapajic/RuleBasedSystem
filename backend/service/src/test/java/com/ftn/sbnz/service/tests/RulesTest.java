@@ -45,7 +45,7 @@ public class RulesTest {
         diseaseSymptoms2.add(new Symptom(8, "Bolovi u stomaku", SymptomLevel.LEVEL_1));
         diseaseSymptoms2.add(new Symptom(9, "Povracanje", SymptomLevel.LEVEL_2));
 
-        Disease disease2 = new Disease(2, "Salmoneloza", diseaseSymptoms2, TestType.KULTURA_STOLICE);
+        Disease disease2 = new Disease(2, "Salmoneloza", diseaseSymptoms2, TestType.SPUTUM_TEST);
         diseases.add(disease2);
 
         findDisease(anamnesis, diseases);

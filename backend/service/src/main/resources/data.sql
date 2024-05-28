@@ -59,10 +59,10 @@ INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Zbunjenost ili promene u pon
 
 -- DISEASES --
 INSERT INTO diseases (name, test_type) VALUES ('Streptokokna upala grla', 'RAPID_STREP_TEST');
-INSERT INTO diseases (name, test_type) VALUES ('Bakterijska pneumonija', 'RENDGEN_GRUDNOG_KOSA');
+INSERT INTO diseases (name, test_type) VALUES ('Bakterijska pneumonija', 'CHEST_X_RAY');
 INSERT INTO diseases (name, test_type) VALUES ('Tuberkuloza', 'SPUTUM_TEST');
-INSERT INTO diseases (name, test_type) VALUES ('Salmoneloza', 'KULTURA_STOLICE');
-INSERT INTO diseases (name, test_type) VALUES ('Meningitis', 'MRI_GLAVE');
+INSERT INTO diseases (name, test_type) VALUES ('Salmoneloza', 'STOOL_CULTURE');
+INSERT INTO diseases (name, test_type) VALUES ('Meningitis', 'HEAD_MRI');
 
 -- DISEASES <-> SYMPTOMS --
 INSERT INTO disease_symptom (disease_id, symptom_id) VALUES (1, 1);

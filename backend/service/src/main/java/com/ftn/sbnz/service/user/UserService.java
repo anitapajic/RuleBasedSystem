@@ -2,8 +2,10 @@ package com.ftn.sbnz.service.user;
 
 import com.ftn.sbnz.model.dto.user.UserDTO;
 import com.ftn.sbnz.model.dto.user.UserTokenState;
+import com.ftn.sbnz.model.models.user.Patient;
 import com.ftn.sbnz.model.models.user.User;
 import com.ftn.sbnz.model.models.user.Role;
+import com.ftn.sbnz.repository.PatientRepository;
 import com.ftn.sbnz.repository.UserRepository;
 import com.ftn.sbnz.repository.RoleRepository;
 import com.ftn.sbnz.util.TokenUtils;
@@ -37,6 +39,8 @@ public class UserService {
 
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private PatientRepository patientRepository;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -72,10 +76,24 @@ public class UserService {
 
         user.setEmail(userDTO.getEmail());
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+
         user.setRoles(roles);
         user.setName(userDTO.getName());
         user.setSurname(userDTO.getSurname());
+
+//        if(userDTO.getRole().equals("ROLE_PATIENT")){
+//            Patient patient = new Patient();
+//            patient.setEmail(userDTO.getEmail());
+//            patient.setName(userDTO.getName());
+//            patient.setSurname(userDTO.getSurname());
+//            patient.setPassword(user.getPassword());
+//            patient.setWeight(userDTO.getWeight());
+//            patient.setBirthDate(userDTO.getBirthDate());
+//            patientRepository.save(patient);
+//        }
         userRepository.save(user);
+
+
         userDTO.setId(user.getId());
         userDTO.setPassword("");
         return userDTO;

@@ -22,7 +22,8 @@ export const Container = styled.form`
     min-width: 40%;
     border-radius: 15px;
     max-width: 600px;
-    border: 1px solid grey;
+    //border: 1px solid grey;
+    box-shadow: 10px 12px 20px rgba(0, 0, 0, 0.1); 
 `
 
 export const Input = styled.input`
@@ -30,7 +31,7 @@ export const Input = styled.input`
   border: 1px solid ${({ theme }) => theme.colors.grey};
   padding: 12px 15px;
   margin-left: 15px;
-  width: 90%;
+  width: 95%;
   border-radius: 7px;
   border: 0.5px solid grey;
 `;
@@ -40,7 +41,7 @@ export const InputDescription = styled.input`
   border: 1px solid ${({ theme }) => theme.colors.grey};
   padding: 12px 15px;
   margin-left: 15px;
-  width: 90%;
+  width: 95%;
   border-radius: 7px;
   min-height: 60px;
   border: 0.5px solid grey;

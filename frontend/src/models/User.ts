@@ -18,6 +18,7 @@ export interface NewUser {
   confPassword : string;
   role : Role;
   weight: number | string;
+  birthDate: Date | null;
 }
 export interface LoginUser{
   userId: number;

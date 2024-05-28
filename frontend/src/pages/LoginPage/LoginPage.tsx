@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
 import {
@@ -33,15 +34,17 @@ export interface Props {
 
 const LoginPage = () => {
   const [signInPanel, setSignInPanel] = useState(true);
+  const [birthDate, setBirthDate] = useState<Date | null>(null);
 
   const [newUser, setNewUser] = useState<NewUser>({
     name: "",
-    surname:"",
+    surname: "",
     email: "",
     password: "",
     confPassword: "",
     role: Role.ROLE_PATIENT,
-    weight: ""
+    weight: "",
+    birthDate: null
   });
 
   const [isValidUsername, setIsValidUsername] = useState(true);
@@ -81,6 +84,19 @@ const LoginPage = () => {
     }));
   };
 
+  const handleBirthDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+
+    setBirthDate(value ? new Date(value) : null);
+
+    const parsedDate = value ? new Date(value) : null;
+  
+    setNewUser((prevUser) => ({
+      ...prevUser,
+      birthDate: parsedDate
+    }));
+  };
+
 
   const handleSignUp = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -96,7 +112,7 @@ const LoginPage = () => {
       console.log(newUser);
       UserService.register(newUser)
         .then((response: any) => {
-          if(response!=null){
+          if (response != null) {
             console.log(response.data)
           }
         })
@@ -122,121 +138,130 @@ const LoginPage = () => {
   };
 
 
+
+
   return (
     <div>
-    <Wrapper>
-      <Container>
-        <SignUpContainer signinIn={signInPanel}>
-          <Form>
-            <Title>Create Account</Title>
-            <CustomInput
-              type="text"
-              placeholder="Name"
-              name="name"
-              value={newUser.name}
-              onChange={handleInputChange}
-            />
-            <CustomInput
-              type="text"
-              placeholder="SurName"
-              name="surname"
-              value={newUser.surname}
-              onChange={handleInputChange}
-            />
-            <CustomInput
-              type="email"
-              placeholder="Email"
-              name="email"
-              value={newUser.email}
-              onChange={handleInputChange}
-              className={isValidUsername ? '' : 'invalidInput'}
-            />
-            {isValidUsername ? null : (
-              <small className="error-text">Email is not valid!</small>
-            )}
-            <CustomInput
-              type="number"
-              placeholder="Weight"
-              name="weight"
-              value={newUser.weight}
-              onChange={handleInputChange}
-            />
-            <CustomInput
-              type="password"
-              placeholder="Password"
-              name="password"
-              value={newUser.password}
-              onChange={handleInputChange}
-              className={isValidPassword ? '' : 'invalidInput'}
+      <Wrapper>
+        <Container>
+          <SignUpContainer signinIn={signInPanel}>
+            <Form>
+              <Title>Create Account</Title>
+              <CustomInput
+                type="text"
+                placeholder="Name"
+                name="name"
+                value={newUser.name}
+                onChange={handleInputChange}
+              />
+              <CustomInput
+                type="text"
+                placeholder="SurName"
+                name="surname"
+                value={newUser.surname}
+                onChange={handleInputChange}
+              />
+              <CustomInput
+                type="email"
+                placeholder="Email"
+                name="email"
+                value={newUser.email}
+                onChange={handleInputChange}
+                className={isValidUsername ? '' : 'invalidInput'}
+              />
+              {isValidUsername ? null : (
+                <small className="error-text">Email is not valid!</small>
+              )}
+              <CustomInput
+                type="number"
+                placeholder="Weight"
+                name="weight"
+                value={newUser.weight}
+                onChange={handleInputChange}
+              />
+              <CustomInput
+                type="date"
+                value={birthDate ? birthDate.toISOString().split("T")[0] : ""}
+                onChange={handleBirthDateChange}
+                placeholder="Choose birth date"
+              />
 
-            />
-            {isValidPassword ? null : (
-              <small className="error-text">Password is not strong enough!</small>
-            )}
-            <CustomInput
-              type="password"
-              placeholder="Confirm password"
-              name="confPassword"
-              value={newUser.confPassword}
-              onChange={handleInputChange}
-              className={isValidConfPassword ? '' : 'invalidInput'}
+              <CustomInput
+                type="password"
+                placeholder="Password"
+                name="password"
+                value={newUser.password}
+                onChange={handleInputChange}
+                className={isValidPassword ? '' : 'invalidInput'}
 
-            />
-            {isValidConfPassword ? null : (
-              <small className="error-text">Passwords do not match!</small>
-            )}
+              />
+              {isValidPassword ? null : (
+                <small className="error-text">Password is not strong enough!</small>
+              )}
+              <CustomInput
+                type="password"
+                placeholder="Confirm password"
+                name="confPassword"
+                value={newUser.confPassword}
+                onChange={handleInputChange}
+                className={isValidConfPassword ? '' : 'invalidInput'}
 
-            <Button onClick={handleSignUp}>Sign Up</Button>
-          </Form>
-        </SignUpContainer>
+              />
+              {isValidConfPassword ? null : (
+                <small className="error-text">Passwords do not match!</small>
+              )}
 
-        <SignInContainer signinIn={signInPanel}>
-          <Form>
-            <Title>Sign in</Title>
-            <Input
-              type="email"
-              placeholder="Email"
-              name="email"
-              value={loginUser.email}
-              onChange={handleLoginInputChange}
-            />
-            <Input
-              type="password"
-              placeholder="Password"
-              name="password"
-              value={loginUser.password}
-              onChange={handleLoginInputChange}
-            />
-            <Anchor href="#">Forgot your password?</Anchor>
-            <Button onClick={handleSignIn}>Sign In</Button>
-          </Form>
-        </SignInContainer>
+              <Button onClick={handleSignUp}>Sign Up</Button>
+            </Form>
+          </SignUpContainer>
 
-        <OverlayContainer signinIn={signInPanel}>
-          <Overlay signinIn={signInPanel}>
-            <LeftOverlayPanel signinIn={signInPanel}>
-              <Title>Welcome Back!</Title>
-              <Paragraph>
-                To keep connected with us please login with your personal info
-              </Paragraph>
-              <GhostButton onClick={() => setSignInPanel(true)}>
-                Sign In
-              </GhostButton>
-            </LeftOverlayPanel>
+          <SignInContainer signinIn={signInPanel}>
+            <Form>
+              <Title>Sign in</Title>
+              <Input
+                type="email"
+                placeholder="Email"
+                name="email"
+                value={loginUser.email}
+                onChange={handleLoginInputChange}
+              />
+              <Input
+                type="password"
+                placeholder="Password"
+                name="password"
+                value={loginUser.password}
+                onChange={handleLoginInputChange}
+              />
+              <Anchor href="#">Forgot your password?</Anchor>
+              <Button onClick={handleSignIn}>Sign In</Button>
+            </Form>
+          </SignInContainer>
 
-            <RightOverlayPanel signinIn={signInPanel}>
-              <Title>Hello, Friend!</Title>
-              <Paragraph>
-                Enter Your personal details and start journey with us
-              </Paragraph>
-              <GhostButton onClick={() => setSignInPanel(false)}>
-                Sign Up
-              </GhostButton>
-            </RightOverlayPanel>
-          </Overlay>
-        </OverlayContainer>
-      </Container>
-    </Wrapper>
+          <OverlayContainer signinIn={signInPanel}>
+            <Overlay signinIn={signInPanel}>
+              <LeftOverlayPanel signinIn={signInPanel}>
+                <Title>Welcome Back!</Title>
+                <Paragraph>
+                  To keep connected with us please login with your personal info
+                </Paragraph>
+                <GhostButton onClick={() => setSignInPanel(true)}>
+                  Sign In
+                </GhostButton>
+              </LeftOverlayPanel>
+
+              <RightOverlayPanel signinIn={signInPanel}>
+                <Title>Hello, Friend!</Title>
+                <Paragraph>
+                  Enter Your personal details and start journey with us
+                </Paragraph>
+                <GhostButton onClick={() => setSignInPanel(false)}>
+                  Sign Up
+                </GhostButton>
+              </RightOverlayPanel>
+            </Overlay>
+          </OverlayContainer>
+        </Container>
+      </Wrapper>
     </div>
 
   );

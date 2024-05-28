@@ -4,6 +4,7 @@ import {
   FaLinkedin,
   FaTwitter,
 } from "react-icons/fa";
+import { TestType } from "../models/enums/TestType";
 
 
 export const theme = {
@@ -50,7 +51,12 @@ export const navbarTitle = "Bacti Cure";
     { href: "/doctor-diseases", value: "Diseases", role: "doctor" },
     { href: "/login", value: "Sign In/Sign up", role: "guest" },
     { href: "/login", value: "Log Out", role: "logged" },
-    { href: "#", value: "Contact", role: "all" },
   ];
 
-
+  export const testTypeMappings: { [key in TestType]: string } = {
+    RAPID_STREP_TEST: "Rapid Strep Test",
+    CHEST_X_RAY: "Chest X Ray",
+    SPUTUM_TEST: "Sputum Test",
+    STOOL_CULTURE: "Stool Culture",
+    HEAD_MRI: "Head MRI"
+  };

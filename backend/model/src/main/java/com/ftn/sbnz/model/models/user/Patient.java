@@ -5,6 +5,7 @@ import com.ftn.sbnz.model.models.medicine.Ingredient;
 import com.ftn.sbnz.model.models.therapy.Therapy;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "patients")
-public class Patient extends User {
+public class Patient extends User implements Serializable {
 
     @Column
     private LocalDate birthDate;

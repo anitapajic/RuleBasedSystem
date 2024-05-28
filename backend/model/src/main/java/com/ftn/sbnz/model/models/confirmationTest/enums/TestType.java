@@ -2,8 +2,8 @@ package com.ftn.sbnz.model.models.confirmationTest.enums;
 
 public enum TestType {
     RAPID_STREP_TEST,
-    RENDGEN_GRUDNOG_KOSA,
+    CHEST_X_RAY,
     SPUTUM_TEST,
-    KULTURA_STOLICE,
-    MRI_GLAVE
+    STOOL_CULTURE,
+    HEAD_MRI
 }
