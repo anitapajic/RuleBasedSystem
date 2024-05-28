@@ -21,15 +21,10 @@ import { NewUser } from "../../models/User";
 import UserService from "../../services/UserService/UserService";
 import useUser from "../../utils/UserContext/useUser";
 import { useNavigate } from "react-router";
-import { showToast } from "../../components/shared/toast/CustomToast";
-// import { convertToBase64 } from "../../utils/functions/convertToBase64";
-// import { renderFileInputSection } from "../../components/shared/picture/Picture";
 import { validateEmail, validatePassword } from "../../utils/functions/validations";
 import { getNext } from "../../utils/functions/getNextPage";
 import { CustomInput } from "../../components/shared/styled/SharedStyles.styled";
 import Role from "../../models/enums/Role";
-//import Modal from "../../components/shared/modal/Modal";
-//import ChangePasswordForm from "../../components/newAdmin/changePassword/ChangePasswordForm";
 
 
 export interface Props {
@@ -39,25 +34,19 @@ export interface Props {
 const LoginPage = () => {
   const [signInPanel, setSignInPanel] = useState(true);
 
-  //const [setIsModalVisible] = useState(false);
-
   const [newUser, setNewUser] = useState<NewUser>({
     name: "",
     surname:"",
     email: "",
     password: "",
     confPassword: "",
-    role: Role.ROLE_PATIENT
-    //picture: "",
+    role: Role.ROLE_PATIENT,
+    weight: ""
   });
 
   const [isValidUsername, setIsValidUsername] = useState(true);
   const [isValidPassword, setIsValidPassword] = useState(true);
   const [isValidConfPassword, setIsValidConfPassword] = useState(true);
-  // const [isValidPicture, setIsValidPicture] = useState(true);
-
-  // const [realPicture, setRealPicture] = useState<File>();
-  // const [base64Picture, setBase64Picture] = useState<string>('');
 
   const [loginUser, setLoginUser] = useState({
     email: "",
@@ -92,39 +81,16 @@ const LoginPage = () => {
     }));
   };
 
-  // const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const file = e.target.files?.[0];
-  //   if (file) {
-  //     try {
-  //       const base64Image = await convertToBase64(file);
-  //       setRealPicture(file)
-  //       setBase64Picture(base64Image);
-  //       setNewUser((prev) => ({
-  //         ...prev,
-  //         picture: file.name,
-  //       }))
-  //       setIsValidPicture(validateImageRE(file.name))
-
-  //     } catch (error) {
-  //       console.error("Error converting image:", error);
-  //     }
-  //   }
-  // };
-
 
   const handleSignUp = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const isValidUsernameValue = validateEmail(newUser.email);
     const isValidPasswordValue = validatePassword(newUser.password);
     const isValidConfPasswordValue = newUser.password !== newUser.confPassword;
-    //const isValidPictureValue = newUser.picture === '';
     if (!isValidUsernameValue || !isValidPasswordValue || isValidConfPasswordValue) {
-
-      showToast("Please fill in all required fields.");
       setIsValidUsername(isValidUsernameValue)
       setIsValidPassword(isValidPasswordValue)
       setIsValidConfPassword(!isValidConfPasswordValue)
-      //setIsValidPicture(!isValidPictureValue)
     } else {
 
       console.log(newUser);
@@ -132,12 +98,10 @@ const LoginPage = () => {
         .then((response: any) => {
           if(response!=null){
             console.log(response.data)
-            //showToast("Please check your email for verification!")
           }
         })
         .catch((error: any) => {
           console.error("Error registering user:", error);
-          showToast("Something went wrong!");
         });
     }
   };
@@ -148,41 +112,18 @@ const LoginPage = () => {
       .then((response: any) => {
         localStorage.setItem("user", JSON.stringify(response.data));
         setUser(response.data);
-
-        // if(response.data.passChange === true){
-          
-        //   h(true);
-        //   return;
-        // }
         console.log(response.data);
-        showToast("Login Successful!");
         navigate(getNext(response.data.role))
 
       })
       .catch((error: any) => {
         console.error("Error logging in:", error);
-        showToast("Something went wrong!");
       });
   };
-  // const handleFormCancel = () => {
-  //   localStorage.removeItem("user");
-  //   setUser(null);
-  //   setIsModalVisible(false);
-  // };
 
-  // const handleFormSubmit= (response : any) => {
-  //   setUser(response.data);
-  //   localStorage.setItem("user", JSON.stringify(response.data));
-  //   navigate(getNext(response.data.role))
-  //   setIsModalVisible(false);
-  // };
-  
 
   return (
     <div>
-         {/* <Modal isVisible={isModalVisible} onClose={handleFormCancel}>
-              <ChangePasswordForm onSubmit={handleFormSubmit} username={loginUser.username!} role = {user?.role}></ChangePasswordForm>
-          </Modal> */}
     <Wrapper>
       <Container>
         <SignUpContainer signinIn={signInPanel}>
@@ -214,6 +155,13 @@ const LoginPage = () => {
               <small className="error-text">Email is not valid!</small>
             )}
             <CustomInput
+              type="number"
+              placeholder="Weight"
+              name="weight"
+              value={newUser.weight}
+              onChange={handleInputChange}
+            />
+            <CustomInput
               type="password"
               placeholder="Password"
               name="password"
@@ -237,12 +185,6 @@ const LoginPage = () => {
             {isValidConfPassword ? null : (
               <small className="error-text">Passwords do not match!</small>
             )}
-            {/* {renderFileInputSection({
-              handleChange: handleImageChange,
-              fileSource: base64Picture,
-              altText: 'Selected Image',
-              isValid: isValidPicture,
-            })} */}
 
             <Button onClick={handleSignUp}>Sign Up</Button>
           </Form>

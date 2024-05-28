@@ -22,10 +22,12 @@ public class AnamnesisEvaluation implements Serializable {
     private String possibleDiseaseName;
     private boolean isConfirmationTestNeeded;
     private boolean confirmationTestResult;
+    private Double diseaseProbability;
 
     public AnamnesisEvaluation(List<Symptom> symptoms, Integer level1Symptoms, Integer level2Symptoms,
                                boolean bloodAnalysisNeeded, boolean bloodAnalysisResult, boolean testNeeded,
-                               String possibleDiseaseName, boolean isConfirmationTestNeeded, boolean confirmationTestResult) {
+                               String possibleDiseaseName, boolean isConfirmationTestNeeded, boolean confirmationTestResult,
+                               Double diseaseProbability) {
         this.symptoms = symptoms;
         this.level1Symptoms = level1Symptoms;
         this.level2Symptoms = level2Symptoms;
@@ -35,6 +37,7 @@ public class AnamnesisEvaluation implements Serializable {
         this.possibleDiseaseName = possibleDiseaseName;
         this.isConfirmationTestNeeded = isConfirmationTestNeeded;
         this.confirmationTestResult = confirmationTestResult;
+        this.diseaseProbability = diseaseProbability;
     }
 
 
@@ -113,5 +116,13 @@ public class AnamnesisEvaluation implements Serializable {
 
     public void setConfirmationTestResult(boolean confirmationTestResult) {
         this.confirmationTestResult = confirmationTestResult;
+    }
+
+    public Double getDiseaseProbability() {
+        return diseaseProbability;
+    }
+
+    public void setDiseaseProbability(Double diseaseProbability) {
+        this.diseaseProbability = diseaseProbability;
     }
 }

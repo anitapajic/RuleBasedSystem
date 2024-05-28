@@ -111,6 +111,7 @@ public class TokenUtils {
      */
     public String getToken(HttpServletRequest request) {
         String authHeader = getAuthHeaderFromHeader(request);
+        System.out.println("Authorization Header: " + authHeader); // Dodajte ovu liniju za proveru
 
         // JWT se prosledjuje kroz header 'Authorization' u formatu:
         // Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM....

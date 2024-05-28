@@ -34,8 +34,8 @@ export const StyledForm = styled.form`
 export const StyledLabel = styled.label`
   margin: 5px;
   font-size: ${({ theme }) => theme.fontSizes.large};
-  color: ${({ theme }) => theme.colors.secondColor};
-  font-weight: bold;
+  color: rgb(77, 75, 75);;
+  //font-weight: bold;
   padding: 5px;
 `;
 
@@ -243,7 +243,7 @@ export const BottomSection = styled.div`
 export const CustomInput = styled.input`
   background-color: #eee;
   margin: 5px;
-  border: 1px solid ${({ theme }) => theme.colors.main};
+  border: 1px solid ${({ theme }) => theme.colors.grey};
   padding-left: 15px;
   padding-right: 15px;
   padding-top:20px;

@@ -10,6 +10,7 @@ export const Container = styled.div`
   width: 750px;
   max-width: 100%;
   min-height: 550px;
+  margin-top: 0;
 `;
 
 export const SignUpContainer = styled.section<Props>`
@@ -62,7 +63,7 @@ export const Title = styled.h1`
 
 export const Input = styled.input`
   background-color: #eee;
-  border: 1px solid ${({ theme }) => theme.colors.main};
+  border: 1px solid ${({ theme }) => theme.colors.grey};
   padding: 12px 15px;
   margin: 8px 0;
   width: 110%;
@@ -74,8 +75,8 @@ export const Input = styled.input`
 
 export const Button = styled.button`
   border-radius: 20px;
-  border: 1px solid ${({ theme }) => theme.colors.main};
-  background-color: ${({ theme }) => theme.colors.secondColor};
+  border: 1px solid ${({ theme }) => theme.colors.grey};
+  background-color: ${({ theme }) => theme.colors.main2};
   color: #ffffff;
   font-size: 12px;
   font-weight: bold;
@@ -92,11 +93,11 @@ export const Button = styled.button`
 `;
 export const GhostButton = styled(Button)`
   background-color: transparent;
-  border-color: ${({ theme }) => theme.colors.main};
+  border-color: ${({ theme }) => theme.colors.grey};
 `;
 
 export const Anchor = styled.a`
-  color: ${({ theme }) => theme.colors.secondColor};
+  color: ${({ theme }) => theme.colors.main2};
   font-size: 14px;
   text-decoration: none;
   margin: 15px 0;
@@ -115,16 +116,16 @@ export const OverlayContainer = styled.div<Props>`
 `;
 
 export const Overlay = styled.div<Props>`
-  background: ${({ theme }) => theme.colors.secondColor};
+  background: ${({ theme }) => theme.colors.main2};
   background: -webkit-linear-gradient(
     to right,
-    ${({ theme }) => theme.colors.secondColor},
+    ${({ theme }) => theme.colors.main2},
     ${({ theme }) => theme.colors.main}
   );
   background: linear-gradient(
     to right,
-    ${({ theme }) => theme.colors.secondColor},
-    ${({ theme }) => theme.colors.secondColor}
+    ${({ theme }) => theme.colors.main2},
+    ${({ theme }) => theme.colors.main2}
   );
   background-repeat: no-repeat;
   background-size: cover;

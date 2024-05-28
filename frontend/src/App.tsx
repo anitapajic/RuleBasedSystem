@@ -1,9 +1,8 @@
 
-import { useState, useRef } from 'react';
-import './App.css'
+import { useState } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 import { LoginUser } from './models/User';
-import { icons, infoItems, menuOptions, navbarTitle, theme } from './utils/data';
+import { menuOptions, navbarTitle, theme } from './utils/data';
 import { ToastContainer } from 'react-toastify';
 import { ThemeProvider } from 'styled-components';
 import { AppContainer, ContentContainer } from './App.styled';
@@ -24,8 +23,6 @@ function App() {
     const savedUser = localStorage.getItem("user");
     return savedUser ? JSON.parse(savedUser) : null;
   });
-
-  const footerRef = useRef(null);
 
   const determineRole = (user: LoginUser | null): string => {
     if (!user) return "guest";
@@ -64,7 +61,6 @@ function App() {
           <Router>
             <AppContainer className="App">
               <Navbar
-                footerRef={footerRef}
                 title={navbarTitle}
                 isMenuOpen={isMenuOpen}
                 setIsMenuOpen={setIsMenuOpen}
@@ -74,7 +70,7 @@ function App() {
               <ContentContainer isMenuOpen={isMenuOpen}>
                 <MyRoutes />
               </ContentContainer>
-              <Footer ref={footerRef} icons={icons} infoItems={infoItems} />
+              <Footer/>
             </AppContainer>
           </Router>
         </MantineProvider>

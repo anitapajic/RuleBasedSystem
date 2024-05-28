@@ -1,16 +1,12 @@
 package com.ftn.sbnz.model.dto.anamnesis;
 
-import com.ftn.sbnz.model.models.symptom.Symptom;
-import jakarta.persistence.Column;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class AnamnesisDTO {
 
-    private Integer patientId;
+    private String patientEmail;
 
     private Integer doctorId;
 
@@ -22,8 +18,8 @@ public class AnamnesisDTO {
 
     //region Constructors
 
-    public AnamnesisDTO(Integer patientId, Integer doctorId, List<Integer> patientsSymptomsIds, Boolean isTestNeeded, String description) {
-        this.patientId = patientId;
+    public AnamnesisDTO(String patientEmail, Integer doctorId, List<Integer> patientsSymptomsIds, Boolean isTestNeeded, String description) {
+        this.patientEmail = patientEmail;
         this.doctorId = doctorId;
         this.patientsSymptomsIds = patientsSymptomsIds;
         this.isTestNeeded = isTestNeeded;
@@ -37,12 +33,12 @@ public class AnamnesisDTO {
 
     //region Getters and Setters
 
-    public Integer getPatientId() {
-        return patientId;
+    public String getPatientEmail() {
+        return patientEmail;
     }
 
-    public void setPatientId(Integer patientId) {
-        this.patientId = patientId;
+    public void setPatientEmail(String patientEmail) {
+        this.patientEmail = patientEmail;
     }
 
     public Integer getDoctorId() {
@@ -61,12 +57,12 @@ public class AnamnesisDTO {
         this.patientsSymptomsIds = patientsSymptomsIds;
     }
 
-    public Boolean getTestNeeded() {
+    public Boolean getIsTestNeeded() {
         return isTestNeeded;
     }
 
-    public void setTestNeeded(Boolean testNeeded) {
-        isTestNeeded = testNeeded;
+    public void setIsTestNeeded(Boolean isTestNeeded) {
+        this.isTestNeeded = isTestNeeded;
     }
 
     public String getDescription() {

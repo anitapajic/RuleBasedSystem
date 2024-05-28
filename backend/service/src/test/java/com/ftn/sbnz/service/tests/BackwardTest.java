@@ -1,9 +1,5 @@
 package com.ftn.sbnz.service.tests;
 
-
-import com.ftn.sbnz.model.models.Man;
-import com.ftn.sbnz.model.models.Woman;
-import com.ftn.sbnz.model.models.Parent;
 import com.ftn.sbnz.model.models.backwardModel.BackwardModel;
 import com.ftn.sbnz.model.models.backwardModel.BackwardType;
 import org.junit.Test;
@@ -11,17 +7,14 @@ import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 
-import java.util.concurrent.TimeUnit;
 
 public class BackwardTest {
 
     @Test
-    public void testWoman() throws InterruptedException {
+    public void test() throws InterruptedException {
         KieSession ksession = prepare();
-
         ksession.fireAllRules();
     }
-
 
     private KieSession prepare(){
         KieServices ks = KieServices.Factory.get();

@@ -122,17 +122,6 @@ rule "Patient has night sweats"
         modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
 end
 
-rule "Patient has diarrhea"
-    lock-on-active true
-    when
-        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
-        $anamnesisEvaluation: AnamnesisEvaluation()
-        Symptom(name == "Dijareja") from $symptoms
-    then
-         
-        modify($anamnesisEvaluation){ setLevel1Symptoms($anamnesisEvaluation.getLevel1Symptoms() + 1) }
-end
-
 rule "Patient has abdominal pain"
     lock-on-active true
     when
@@ -178,6 +167,16 @@ rule "Patient has rash"
 end
 
 //Level 2 symptoms --------------------------------------------------------------------------------------
+rule "Patient has diarrhea"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "Dijareja") from $symptoms
+    then
+
+        modify($anamnesisEvaluation){ setLevel2Symptoms($anamnesisEvaluation.getLevel2Symptoms() + 1) }
+end
 
 rule "Patient has white spots on tonsils"
     lock-on-active true
@@ -400,7 +399,8 @@ rule "Select Disease With Highest Probability Based On Symptoms Count Rule"
         System.out.println("Highest probability for disease " + $selectedDisease.getDisease().getName() + " (" + $selectedDisease.getProbability() * 100 + "%)");
         modify($anamnesisEvaluation){
                 setPossibleDiseaseName($selectedDisease.disease.name),
-                setConfirmationTestNeeded(true)
+                setConfirmationTestNeeded(true),
+                setDiseaseProbability($selectedDisease.getProbability())
         }
 end
 
@@ -412,7 +412,7 @@ rule "Doing confirmation test"
     then
         System.out.println("Doing the confirmation test...");
         Random random = new Random();
-        boolean randomValue = random.nextInt(5) != 0; // True u 4/5 slucajeva
+        boolean randomValue = random.nextInt(10) != 0; // True u 4/5 slucajeva
         modify($anamnesisEvaluation) {
             setConfirmationTestResult(randomValue)
         };

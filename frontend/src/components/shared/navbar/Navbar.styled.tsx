@@ -4,20 +4,20 @@ export const NavbarStyle = styled.nav`
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 20px 50px;
-        background-color: ${({theme}) => theme.colors.secondColor};
+        padding: 25px 55px;
+        background-color: white;
 
         @media (max-width: 768px) {
         padding: 10px 20px;
     }
     `
 export const Title = styled.a`
-        color: ${({theme}) => theme.colors.main};
+        color: ${({theme}) => theme.colors.main2};
         margin: 0;
         cursor : pointer;
         text-decoration: none;
         font-weight: bold;
-        font-size: 24px;
+        font-size: 26px;
 
         &:hover {
             text-decoration: underline;
@@ -29,7 +29,7 @@ export const Menu = styled.ul<{isOpen: boolean}>`
         margin: 0;
         padding: 0;
         display: flex;
-        gap: 20px;
+        gap: 30px;
 
         @media (max-width: 768px) {
         display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
@@ -38,8 +38,6 @@ export const Menu = styled.ul<{isOpen: boolean}>`
         position: absolute;
         top: 59px;
         left: 0;
-        background-color: ${({theme}) => theme.colors.secondColor};
-        gap: 10px;
         z-index: 1001;
     }
     `;
@@ -54,19 +52,19 @@ export const MenuItem = styled.li`
     `;
 
 export const MenuLink = styled.a`
-        color: ${({theme}) => theme.colors.textColor};;
+        color: black;
         text-decoration: none;
-        font-weight: bold;
+        //font-weight: bold;
         font-size: ${({theme}) => theme.fontSizes.large};
 
         &:hover {
-            text-decoration: underline;
+            color: ${({theme}) => theme.colors.main2};
         }
     `;
 
 export const Hamburger = styled.div`
 display: none;
-color: white;
+color: black;
 
 @media (max-width: 768px) {
     display: block;

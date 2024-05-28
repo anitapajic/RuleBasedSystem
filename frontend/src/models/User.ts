@@ -17,12 +17,13 @@ export interface NewUser {
   password: string;
   confPassword : string;
   role : Role;
-  //picture : string;
+  weight: number | string;
 }
 export interface LoginUser{
-  id: number;
-  token: string;
+  userId: number;
+  accessToken: string;
   role: Role;
+  expiresIn:number;
 }
 
 export interface ChangePassword{

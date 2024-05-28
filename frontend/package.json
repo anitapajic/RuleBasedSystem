@@ -14,6 +14,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@mantine/core": "^7.9.0",
+    "@mobiscroll/react": "npm:@mobiscroll/react-next-trial@^5.30.0",
     "@types/react-router": "^5.1.20",
     "@types/react-router-dom": "^5.3.3",
     "@types/react-toastify": "^4.1.0",

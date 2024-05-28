@@ -48,9 +48,9 @@ INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Hronican kasalj sa krvavom p
 INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Gubitak telesne tezine', 'LEVEL_1');
 INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Nocno znojenje', 'LEVEL_1');
 
-INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Dijareja', 'LEVEL_1');
+INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Dijareja', 'LEVEL_2');
 INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Bolovi u stomaku', 'LEVEL_1');
-INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Povracanje', 'LEVEL_2');
+INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Povracanje', 'LEVEL_1');
 
 INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Jaka glavobolja', 'LEVEL_1');
 INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Pojava osipa', 'LEVEL_1');

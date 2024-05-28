@@ -1,9 +1,12 @@
+import { Container } from "../../components/homeInfo/HomeInfo.styled";
+import NewAnamnesisForm from "../../components/newAnamnesisForm/NewAnamnesisForm";
+
 export default function DoctorHomePage(){
     return (
-        <>
         <div>
-            <h1>Doctor Home Page</h1>
+            <Container>  
+                <NewAnamnesisForm/>    
+            </Container>
         </div>
-        </>
     )
 }

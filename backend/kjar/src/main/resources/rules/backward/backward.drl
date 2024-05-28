@@ -15,7 +15,7 @@ end
 rule "go4"
 when
     $model: BackwardModel($ingredient: ingredient != ingredientGlobal, $medicine:medicine, backwardType == BackwardType.MEDICINE)
-    not BackwardModel(ingredient == "Sastojak S1", medicine == $medicine)
+    not BackwardModel(ingredient == ingredientGlobal, medicine == $medicine)
     pronadji($ingredient, $medicine; )
 then
     System.out.println($medicine);

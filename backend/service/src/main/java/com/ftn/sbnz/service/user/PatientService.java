@@ -17,4 +17,8 @@ public class PatientService {
                 -> new ResourceNotFoundException("This patient doesn't exist"));
     }
 
+    public Patient findByEmail(String email) {
+        return patientRepository.findByEmail(email);
+    }
+
 }
