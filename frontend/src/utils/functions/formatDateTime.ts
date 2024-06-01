@@ -1,6 +1,6 @@
 import { format, parseISO } from "date-fns";
 
-export const formatDate = (dateArray: number[]): string => {
+export const formatDate = (dateArray: number[] | undefined): string => {
   if (!Array.isArray(dateArray) || dateArray.length !== 3) {
     throw new TypeError('Expected an array of [year, month, day]');
   }

@@ -4,3 +4,4 @@ export interface Patient extends User{
     birthDate:number[];
     weight:number;
 }
+

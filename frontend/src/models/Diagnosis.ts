@@ -1,5 +1,8 @@
+import { Disease } from "./Disease";
+import { Patient } from "./Patient";
+
 export interface Diagnosis{
     id:number;
-    patientId:number;
-    diseaseId:number;
+    patient:Patient;
+    disease:Disease;
 }

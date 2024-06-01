@@ -10,6 +10,9 @@ import useUser from '../../utils/UserContext/useUser';
 import AnamnesisService from '../../services/AnamnesisService/AnamnesisService';
 import { AnamnesisEvaluation } from '../../models/enums/AnamnesisEvaluation';
 import { StyledLabel } from '../shared/styled/SharedStyles.styled';
+import TherapyService from '../../services/TherapyService/TherapyService';
+import { Therapy } from '../../models/Therapy';
+import { formatDate } from '../../utils/functions/formatDateTime';
 
 
 const multipleData = [
@@ -73,9 +76,11 @@ export default function NewAnamnesisForm() {
 
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState<any>(null);
+  const [response2, setResponse2] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
   const [anamnesisEvaluation, setAnamnesisEvaluation] = useState<AnamnesisEvaluation>(defaultAnamnesisEvaluation);
+  const [therapy, setTherapy] = useState<Therapy>();
 
   const handleChangeSymptoms = (event: { value: number[] }) => {
     setSelectedValues(event.value);
@@ -100,6 +105,7 @@ export default function NewAnamnesisForm() {
     setLoading(true);
     setError(null);
     setResponse(null);
+    setResponse2(null);
 
     const anamnesis: newAnamnesis = {
       patientEmail: patientEmail,
@@ -115,6 +121,26 @@ export default function NewAnamnesisForm() {
       setLoading(false);
       setResponse(response.data);
       setAnamnesisEvaluation(response.data);
+    })
+      .catch((error: any) => {
+        console.error("Error in request:", error);
+        setLoading(false);
+        setError("Error in request: " + error.message);
+      });
+  };
+
+  const handleSubmitTherapy = () => {
+
+    setLoading(true);
+    setError(null);
+    setResponse(null);
+    setResponse2(null);
+
+    TherapyService.diagnostic(patientEmail).then((response: any) => {
+      console.log("Response: ", response.data);
+      setLoading(false);
+      setResponse2(response.data);
+      setTherapy(response.data);
     })
       .catch((error: any) => {
         console.error("Error in request:", error);
@@ -139,7 +165,22 @@ export default function NewAnamnesisForm() {
             <StyledLabel>Disease Probability: <b>{(anamnesisEvaluation.diseaseProbability*100).toFixed(2)}%</b></StyledLabel>
             <StyledLabel>Result of confirmation test: <b>{anamnesisEvaluation.confirmationTestResult ? "POSITIVE !" : "NEGATIVE !"}</b></StyledLabel>
             <StyledLabel><b>Patient {patientEmail} {anamnesisEvaluation.confirmationTestResult ? "has" : "doesn't have"} disease {anamnesisEvaluation.possibleDiseaseName}!</b></StyledLabel>
-
+            {anamnesisEvaluation.confirmationTestResult==true && (
+              <Button type="button" onClick={handleSubmitTherapy}>
+                Find therapy
+              </Button>
+            )}
+            
+          </Wrapper>
+        ) : response2? (
+          <Wrapper>
+            <Title>Therapy for disease {anamnesisEvaluation.possibleDiseaseName}</Title> 
+            <StyledLabel>Patient: <b>{patientEmail}</b></StyledLabel>
+            <StyledLabel>Medicine name: <b>{therapy?.medicine.name}</b></StyledLabel>
+            <StyledLabel>Milligrams: <b>{therapy?.milligrams} mg</b></StyledLabel>
+            <StyledLabel>Frequency: <b>{therapy?.frequency} times a day</b></StyledLabel>
+            <StyledLabel>From: <b>{formatDate(therapy?.dateRange.startDate)}</b></StyledLabel>
+            <StyledLabel>To: <b>{formatDate(therapy?.dateRange.endDate)}</b></StyledLabel>
           </Wrapper>
         ) : (
           <>

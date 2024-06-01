@@ -2,10 +2,12 @@ package com.ftn.sbnz.service.tests;
 
 import com.ftn.sbnz.model.models.backwardModel.BackwardModel;
 import com.ftn.sbnz.model.models.backwardModel.BackwardType;
+import com.ftn.sbnz.model.models.medicine.Medicine;
 import org.junit.Test;
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.rule.QueryResults;
 
 
 public class BackwardTest {
@@ -36,6 +38,7 @@ public class BackwardTest {
 
         return ksession;
     }
+
 
 
 }

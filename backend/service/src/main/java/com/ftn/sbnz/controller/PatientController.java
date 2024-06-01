@@ -1,5 +1,6 @@
 package com.ftn.sbnz.controller;
 
+import com.ftn.sbnz.model.dto.user.AddAllergenDTO;
 import com.ftn.sbnz.model.models.user.Patient;
 import com.ftn.sbnz.service.user.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,18 @@ public class PatientController {
         try {
             List<Patient> patients = patientService.findAll();
             return ResponseEntity.ok(patients);
+        }
+        catch(Exception e){
+            return (ResponseEntity<?>) ResponseEntity.notFound();
+        }
+    }
+
+    @PreAuthorize("hasAnyRole('PATIENT')")
+    @PutMapping(value = "/allergens")
+    public ResponseEntity<?> addAllergen(@RequestBody AddAllergenDTO addAllergenDTO) {
+        try {
+            Patient patient = patientService.addAllergens(addAllergenDTO);
+            return ResponseEntity.ok(patient);
         }
         catch(Exception e){
             return (ResponseEntity<?>) ResponseEntity.notFound();

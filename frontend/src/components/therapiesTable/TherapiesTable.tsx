@@ -1,23 +1,22 @@
 import { Pagination, PaginationProps } from "semantic-ui-react";
 import '../../../node_modules/semantic-ui-css/semantic.min.css';
 import { useState } from "react";
+import { formatDate } from "../../utils/functions/formatDateTime";
 import { TableWrapper, ScrollableContainer, StyledTable, StyledPagination } from "../patientsTable/PatientsTable.styled";
-import { Disease } from "../../models/Disease";
-import { TestType } from "../../models/enums/TestType";
-import { testTypeMappings } from "../../utils/data";
+import { Therapy } from "../../models/Therapy";
 
-type DiseasesTableProps = {
-    diseases: Disease[];
+type TherapiesTableProps = {
+    therapies: Therapy[];
     searchInput: string;
 };
-export default function DiseaseTable({ diseases, searchInput }: DiseasesTableProps) {
+export default function TherapiesTable({ therapies, searchInput }: TherapiesTableProps) {
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 3;
+    const itemsPerPage = 5;
 
-    const totalNumberOfPages = Math.ceil(diseases.length / itemsPerPage);
+    const totalNumberOfPages = Math.ceil(therapies.length / itemsPerPage);
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = diseases.slice(indexOfFirstItem, indexOfLastItem);
+    const currentItems = therapies.slice(indexOfFirstItem, indexOfLastItem);
 
     const handlePageChange = (event: React.MouseEvent<HTMLAnchorElement>, data: PaginationProps) => {
         if (typeof data.activePage === 'number') {
@@ -37,33 +36,36 @@ export default function DiseaseTable({ diseases, searchInput }: DiseasesTablePro
             regex.test(part) ? <span key={index} style={{ backgroundColor: 'pink' }}>{part}</span> : part
         );
     };
-
-    const getDisplayName = (testType: TestType): string => {
-        return testTypeMappings[testType];
-      };
-      
     return (
         <TableWrapper>
             <ScrollableContainer>
                 <StyledTable>
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Test name</th>
+                            <th>Disease</th>
+                            <th>Medicine</th>
+                            <th>Milligrams</th>
+                            <th>Frequency a day</th>
+                            <th>Start date</th>
+                            <th>End date</th>
                         </tr>
                     </thead>
 
                     <tbody>
                         {currentItems.length > 0 ? (
-                            currentItems.map((disease) => (
-                                <tr key={disease.id}>
-                                    <td>{highlightText(disease.name, searchInput)}</td>
-                                    <td>{highlightText(getDisplayName(disease.testType), searchInput)}</td>
+                            currentItems.map((therapy) => (
+                                <tr key={therapy.id}>
+                                    <td>{highlightText(therapy.diagnosis.disease.name, searchInput)}</td>
+                                    <td>{highlightText(therapy.medicine.name, searchInput)}</td>
+                                    <td>{highlightText(therapy.milligrams.toString(), searchInput)}</td>
+                                    <td>{highlightText(therapy.frequency.toString(), searchInput)}</td>
+                                    <td>{formatDate(therapy.dateRange.startDate)}</td> 
+                                    <td>{formatDate(therapy.dateRange.endDate)}</td>                                 
                                 </tr>
                             ))
                         ) : (
                             <tr>
-                                <td colSpan={2}><h2>No data</h2></td>
+                                <td colSpan={6}><h2>No data</h2></td>
                             </tr>
                         )}
                     </tbody>

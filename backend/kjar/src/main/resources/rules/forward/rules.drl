@@ -288,7 +288,6 @@ rule "Patient has streptococcal sore throat"
         $anamnesis: Anamnesis($symptoms: patientsSymptoms) //pacijentovi simptomi
         $anamnesisEvaluation: AnamnesisEvaluation(bloodAnalysisResult==true)
         $disease: Disease(name == "Streptokokna upala grla", $diseaseSymptoms: symptoms)
-
         $diseaseSymptomsString: List() from accumulate(
                 Symptom($symptomName: name) from $diseaseSymptoms,
                 collectList($symptomName)

@@ -69,7 +69,6 @@ public class UserService {
         User validation = userRepository.findByEmail(userDTO.getEmail());
         if (validation != null) throw new AlreadyExistisException("User with this email already exists.");
 
-        // da vidimo da li cemo raditi sa maperima
         User user = new User();
         Set<Role> roles = new HashSet<>();
         roles.add(roleRepository.findByName(userDTO.getRole()));
@@ -81,18 +80,19 @@ public class UserService {
         user.setName(userDTO.getName());
         user.setSurname(userDTO.getSurname());
 
-//        if(userDTO.getRole().equals("ROLE_PATIENT")){
-//            Patient patient = new Patient();
-//            patient.setEmail(userDTO.getEmail());
-//            patient.setName(userDTO.getName());
-//            patient.setSurname(userDTO.getSurname());
-//            patient.setPassword(user.getPassword());
-//            patient.setWeight(userDTO.getWeight());
-//            patient.setBirthDate(userDTO.getBirthDate());
-//            patientRepository.save(patient);
-//        }
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
 
+        Patient patient = new Patient();
+        patient.setId(savedUser.getId());
+        patient.setWeight(userDTO.getWeight());
+        patient.setBirthDate(userDTO.getBirthDate());
+        patient.setName(savedUser.getName());
+        patient.setSurname(savedUser.getSurname());
+        patient.setPassword(savedUser.getPassword());
+        patient.setEmail(savedUser.getEmail());
+        patient.setRoles(savedUser.getRoles());
+
+        patientRepository.save(patient);
 
         userDTO.setId(user.getId());
         userDTO.setPassword("");

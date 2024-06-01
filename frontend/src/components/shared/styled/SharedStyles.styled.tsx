@@ -37,6 +37,7 @@ export const StyledLabel = styled.label`
   color: rgb(77, 75, 75);;
   //font-weight: bold;
   padding: 5px;
+  text-align: center;
 `;
 
 export const StyledInput = styled.input<{ isValid?: boolean }>`

@@ -45,7 +45,8 @@ export const navbarTitle = "Bacti Cure";
   export const menuOptions = [
     { href: "", value: "Home", role: "guest" },
     { href: "/", value: "Home", role: "logged" },
-    { href: "/patient-home-page", value: "Perscriptions", role: "patient" },
+    { href: "/patient-home-page", value: "Therapies", role: "patient" },
+    { href: "#", value: "Add allergens", role: "patient" },
     { href: "/doctor-home-page", value: "New Anamnesis", role: "doctor" },
     { href: "/doctor-patients", value: "Patients", role: "doctor" },
     { href: "/doctor-diseases", value: "Diseases", role: "doctor" },

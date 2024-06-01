@@ -58,12 +58,12 @@ export default function PatientsTable({ patients, searchInput }: PatientsTablePr
                                     <td>{highlightText(patient.surname, searchInput)}</td>
                                     <td>{highlightText(patient.email, searchInput)}</td>
                                     <td>{formatDate(patient.birthDate)}</td> 
-                                    <td>{highlightText(patient.weight.toString(), searchInput)}</td>                                   
+                                    <td>{highlightText(patient.weight.toString(), searchInput)}kg</td>                                   
                                 </tr>
                             ))
                         ) : (
                             <tr>
-                                <td colSpan={4}><h2>No data</h2></td>
+                                <td colSpan={5}><h2>No data</h2></td>
                             </tr>
                         )}
                     </tbody>
