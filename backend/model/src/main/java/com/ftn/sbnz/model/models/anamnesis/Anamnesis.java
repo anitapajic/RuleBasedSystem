@@ -1,6 +1,5 @@
 package com.ftn.sbnz.model.models.anamnesis;
 
-import com.ftn.sbnz.model.models.medicine.Ingredient;
 import com.ftn.sbnz.model.models.symptom.Symptom;
 import com.ftn.sbnz.model.models.user.Patient;
 import com.ftn.sbnz.model.models.user.User;
@@ -108,12 +107,12 @@ public class Anamnesis {
         this.patientsSymptoms = patientsSymptoms;
     }
 
-    public Boolean getTestNeeded() {
+    public Boolean getIsTestNeeded() {
         return isTestNeeded;
     }
 
-    public void setTestNeeded(Boolean testNeeded) {
-        isTestNeeded = testNeeded;
+    public void setIsTestNeeded(Boolean isTestNeeded) {
+        this.isTestNeeded = isTestNeeded;
     }
 
     //endregion

@@ -2,6 +2,8 @@ package com.ftn.sbnz.model.dto.user;
 
 import jakarta.validation.constraints.Pattern;
 
+import java.time.LocalDate;
+
 public class UserDTO {
 
     private Integer id;
@@ -13,12 +15,23 @@ public class UserDTO {
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d).*$",
             message = "Password must contain at least 1 number and 1 letter")
     private String password;
+    private Double weight;
+    private LocalDate birthDate;
 
     private String role;
 
     //region Constructors
     public UserDTO() {
 
+    }
+
+    public UserDTO(String name, String surname, String email, Double weight, LocalDate birthDate, String role) {
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.weight = weight;
+        this.birthDate = birthDate;
+        this.role = role;
     }
 
     public UserDTO(String name, String surname, String email, String role) {
@@ -78,6 +91,21 @@ public class UserDTO {
         this.role = role;
     }
 
+    public Double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Double weight) {
+        this.weight = weight;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
     //endregion
 
 }

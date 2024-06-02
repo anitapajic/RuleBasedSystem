@@ -2,9 +2,13 @@ package backward;
 
 import com.ftn.sbnz.model.models.backwardModel.BackwardModel;
 import com.ftn.sbnz.model.models.backwardModel.BackwardType;
+import com.ftn.sbnz.model.models.medicine.Medicine;
+
+
+import java.util.List;
 
 global String ingredientGlobal;
-
+global List<String> medicineList;
 
 query pronadji(String sastojak, String lek)
     BackwardModel(sastojak, lek; )
@@ -15,9 +19,11 @@ end
 rule "go4"
 when
     $model: BackwardModel($ingredient: ingredient != ingredientGlobal, $medicine:medicine, backwardType == BackwardType.MEDICINE)
-    not BackwardModel(ingredient == "Sastojak S1", medicine == $medicine)
+    not BackwardModel(ingredient == ingredientGlobal, medicine == $medicine)
     pronadji($ingredient, $medicine; )
 then
     System.out.println($medicine);
+    medicineList.add($medicine);
+
 end
 

@@ -1,4 +1,5 @@
-import { useContext } from "react";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { useContext, useState } from "react";
 import {
   NavbarStyle,
   Title,
@@ -9,6 +10,8 @@ import {
 } from "./Navbar.styled";
 import { Link } from "react-router-dom";
 import UserContext from "../../../utils/UserContext/userContext";
+import Modal from "../modal/Modal";
+import AddAllergenForm from "../../addAllergenForm/AddAllergenForm";
 
 export interface NavbarProps {
   title: string;
@@ -16,7 +19,6 @@ export interface NavbarProps {
   label?: string;
   isMenuOpen: boolean;
   options: { href: string; value: string }[];
-  footerRef?: React.RefObject<HTMLDivElement>;
   setIsMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -25,11 +27,11 @@ export default function Navbar({
   isMenuOpen,
   setIsMenuOpen,
   options,
-  footerRef,
 }: NavbarProps) {
 
   const userContext = useContext(UserContext);
   const { setUser } = userContext!;
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
 
   const handleLogout = () => {
@@ -37,10 +39,12 @@ export default function Navbar({
     setUser(null);
   };
 
+  const handleAddAllergensClick = () => {
+    setIsModalVisible(true);
+  };
 
-
-  const handleContactClick = () => {
-    footerRef?.current?.scrollIntoView({ behavior: "smooth" });
+  const handleFormCancel = () => {
+    setIsModalVisible(false);
   };
 
 
@@ -61,8 +65,8 @@ export default function Navbar({
                   if (link.value === "Log Out") {
                     handleLogout();
                   }
-                  if (link.value === "Contact") {
-                    handleContactClick();
+                  if (link.value === "Add allergens") {
+                    handleAddAllergensClick();
                   }
                   setIsMenuOpen(false);
                 }}
@@ -74,6 +78,9 @@ export default function Navbar({
           ))}
         </Menu>
       </NavbarStyle>
+      <Modal isVisible={isModalVisible} onClose={handleFormCancel}>
+        <AddAllergenForm onSubmit={handleFormCancel}></AddAllergenForm>
+      </Modal>
     </>
   );
 }

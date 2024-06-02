@@ -11,16 +11,16 @@ customAxios.interceptors.request.use(
     const storedData = localStorage.getItem("user");
     if (storedData) {
       const userData = JSON.parse(storedData);
-      if (userData && userData.token) {
-        config.headers["Authorization"] = userData.token;
+      console.log('User data:', userData); // Dodajte ovu liniju za proveru
+      if (userData && userData.accessToken) {
+        console.log('Token:', userData.accessToken); // Dodajte ovu liniju za proveru
+        config.headers["Authorization"] = `Bearer ${userData.accessToken}`;
       }
     }
     return config;
   },
-  
   (error: any) => {
-    console.log(error, "error")
-
+    console.log(error, "error");
     return Promise.reject(error);
   }
 );

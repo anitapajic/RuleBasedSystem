@@ -1,11 +1,7 @@
 package com.ftn.sbnz.model.events;
 
-import org.kie.api.definition.type.Expires;
 import org.kie.api.definition.type.Role;
-import org.kie.api.definition.type.Timestamp;
 
-import java.time.LocalDateTime;
-import java.util.Date;
 
 @Role(Role.Type.EVENT)
 public class TemperatureEvent {

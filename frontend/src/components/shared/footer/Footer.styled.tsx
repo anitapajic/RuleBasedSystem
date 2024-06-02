@@ -1,32 +1,207 @@
 import styled from "styled-components";
 
-export const StyledFooter = styled.footer`
-  width: 100%;
-  background-color: ${({ theme }) => theme.colors.secondColor};
-  color: ${({ theme }) => theme.colors.textColor};
-  text-align: center;
-  padding-top: 40px;
-  padding-bottom: 40px;
-  padding-left: 0;
-  padding-right: 0;
-  margin-top: 20px;
+export const FooterSection = styled.div`
+  background-color: #1b2433;
 `;
 
-export const SocialIcons = styled.div`
+export const FooterContainer = styled.div`
+  padding: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  color: white;
+  border-bottom: 2px solid #293241;
+  border-radius: 2px;
+
+  @media screen and (max-width: 700px) {
+    padding: 24px;
+  }
+`;
+
+export const FtInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const FtTitle = styled.p`
+  color: #f54263;
+  text-decoration: none;
+  font-family: 'Poppins', sans-serif;
+  font-size: 40px;
+  font-weight: bold;
+  letter-spacing: .8px;
+
+  @media screen and (max-width: 700px) {
+    text-align: center;
+  }
+`;
+
+
+export const FtDescription = styled.p`
+  width: 420px;
+  margin: 16px 0 40px;
+  color: #d0d3da;
+  font-family: 'Rubik', sans-serif;
+  font-size: 20px;
+  letter-spacing: .8px;
+  line-height: 1.7rem;
+
+  @media screen and (max-width: 700px) {
+    width: 100%;
+    margin: 16px 0 24px;
+    text-align: center;
+  }
+`;
+
+export const FtList = styled.div`
+  margin: 16px 0;
+  text-align: left;
+`;
+
+export const FtListTitle = styled.p`
+  font-family: 'Rubik', sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  letter-spacing: .8px;
+  margin-left: 38px;
+`;
+
+export const FtListItems = styled.ul`
+  list-style-type: none;
+`;
+
+export const FtListItem = styled.li`
+  margin: 24px 0;
+  font-family: 'Rubik', sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: .8px;
+
   a {
-    margin: 10px;
-    color: ${({ theme }) => theme.colors.textColor};
-    font-size: 24px;
     text-decoration: none;
-    cursor: pointer;
-    padding: 20 0px;
+    color: #a5a7ac;
+    padding: 0 0 2px 0;
+    border-bottom: 2px dotted transparent;
+    transition: border .2s ease;
+
+    &:hover {
+      border-bottom: 2px dotted #a5a7ac;
+    }
   }
 `;
 
-export const ContactInfo = styled.div`
-  p {
-    margin: 0;
-    font-size: ${({ theme }) => theme.fontSizes.small};
-    padding: 5px;
+export const FtCopyright = styled.div`
+  padding: 2px 35px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #cbcdd3;
+  font-family: 'Rubik', sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: .8px;
+
+  @media screen and (max-width: 700px) {
+    padding: 18px;
+    display: block;
+    text-align: center;
   }
 `;
+
+export const FtSocialLinks = styled.ul`
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+
+  @media screen and (max-width: 700px) {
+    margin: 16px 0 0;
+  }
+
+  li {
+    a {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 2px solid #cbcdd3;
+      border-radius: 50%;
+      cursor: pointer;
+
+      svg {
+        width: 24px;
+        height: 24px;
+        padding: 1px;
+      }
+
+      svg path {
+        fill: #cbcdd3;
+      }
+
+      &:hover,
+      &:hover svg path {
+        fill: #f54263;
+        border: 2px solid #f54263;
+      }
+    }
+  }
+`;
+export const InputTitle = styled.p`
+      color: white;
+    font-family: 'Rubik', sans-serif;
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: .8px;
+
+    @media screen and (max-width: 700px) {
+    text-align: center;
+  }
+`
+
+export const Input = styled.input`
+    width: 250px;
+    margin: 10px 8px 0 0;
+    padding: 16px 22px;
+    color: white;
+    background-color: #293241;
+    border: 1px solid transparent;
+    border-radius: 50px;
+    outline: transparent;
+    font-family: 'Rubik', sans-serif;
+    font-size: 18px;
+    letter-spacing: .8px;
+
+    @media screen and (max-width: 700px) {
+      margin-left: 60px;
+  }
+
+`
+
+export const Button = styled.button`
+    padding: 14px 18px;
+    color: white;
+    border: 2px solid transparent;
+    border-radius: 50px;
+    outline: transparent;
+    background-color: #f54263;
+    font-size: 18px;
+    font-family: 'Rubik', sans-serif;
+    letter-spacing: .8px;
+    cursor: pointer;
+    transition: all .4s ease;
+
+    &:hover {
+    color: #f54263;
+    background-color: white;
+    border: 2px solid #f54263;
+    @media screen and (max-width: 700px) {
+    margin-left: 60px;
+  }
+}
+`
+
+

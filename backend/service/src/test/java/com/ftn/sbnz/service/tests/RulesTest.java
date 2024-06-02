@@ -6,22 +6,15 @@ import com.ftn.sbnz.model.models.confirmationTest.enums.TestType;
 import com.ftn.sbnz.model.models.disease.Disease;
 import com.ftn.sbnz.model.models.symptom.Symptom;
 import com.ftn.sbnz.model.models.symptom.enums.SymptomLevel;
-import com.ftn.sbnz.repository.DiseaseRepository;
-import com.ftn.sbnz.service.DiagnosticService;
-import com.ftn.sbnz.service.disease.DiseaseService;
 import org.junit.Test;
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class RulesTest {
-
-
 
     @Test
     public void test() {
@@ -52,7 +45,7 @@ public class RulesTest {
         diseaseSymptoms2.add(new Symptom(8, "Bolovi u stomaku", SymptomLevel.LEVEL_1));
         diseaseSymptoms2.add(new Symptom(9, "Povracanje", SymptomLevel.LEVEL_2));
 
-        Disease disease2 = new Disease(2, "Salmoneloza", diseaseSymptoms2, TestType.KULTURA_STOLICE);
+        Disease disease2 = new Disease(2, "Salmoneloza", diseaseSymptoms2, TestType.SPUTUM_TEST);
         diseases.add(disease2);
 
         findDisease(anamnesis, diseases);

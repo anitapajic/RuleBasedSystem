@@ -2,6 +2,9 @@
     <kbase name="rules" packages="forward">
         <ksession name="rulesKsession"/>
     </kbase>
+    <kbase name="therapy" packages="forward2">
+        <ksession name="therapyKsession"/>
+    </kbase>
     <kbase name="cepRules" eventProcessingMode="stream" packages="cep">
         <ksession name="cepRulesKsession" clockType="pseudo"/>
     </kbase>

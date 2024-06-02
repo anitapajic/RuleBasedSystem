@@ -32,7 +32,8 @@ public class UserController {
             return ResponseEntity.ok(userService.register(userDTO));
         }
         catch(Exception e){
-            return (ResponseEntity<?>) ResponseEntity.badRequest();
+            System.out.println(e);
+            return null;
         }
 
     }
