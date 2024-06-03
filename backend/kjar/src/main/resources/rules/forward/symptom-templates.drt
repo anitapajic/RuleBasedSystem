@@ -1,0 +1,25 @@
+template header
+symptomName
+symptomLevel
+
+package rules.forward;
+dialect  "mvel"
+
+import com.ftn.sbnz.model.models.anamnesis.Anamnesis
+import com.ftn.sbnz.model.models.anamnesis.AnamnesisEvaluation
+import com.ftn.sbnz.model.models.symptom.Symptom
+import com.ftn.sbnz.model.models.disease.Disease
+
+template "symptom rules"
+
+rule "Patient has @{symptomName}"
+    lock-on-active true
+    when
+        $anamnesis: Anamnesis($symptoms: patientsSymptoms)
+        $anamnesisEvaluation: AnamnesisEvaluation()
+        Symptom(name == "@{symptomName}") from $$symptoms
+    then
+        modify($$anamnesisEvaluation){ setLevel@{symptomLevel}Symptoms($$anamnesisEvaluation.getLevel@{symptomLevel}Symptoms() + 1)};
+end
+
+end template

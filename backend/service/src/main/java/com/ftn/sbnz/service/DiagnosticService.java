@@ -8,6 +8,7 @@ import com.ftn.sbnz.model.models.user.Patient;
 import com.ftn.sbnz.service.diagnosis.DiagnosisService;
 import com.ftn.sbnz.service.disease.DiseaseService;
 import com.ftn.sbnz.service.user.PatientService;
+import com.ftn.sbnz.util.KieSessionUtils;
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
@@ -64,19 +65,13 @@ public class DiagnosticService {
             Diagnosis diagnosis = new Diagnosis();
             diagnosis.setDisease(diseaseService.findByName(anamnesisEvaluation1.getPossibleDiseaseName()));
             diagnosis.setPatient(anamnesis.getPatient());
-            if (anamnesis.getPatientsSymptoms().size() <= diagnosis.getDisease().getSymptoms().size() * 0.2) {
-                severityLevel = 1;
-            } else if (anamnesis.getPatientsSymptoms().size() <= diagnosis.getDisease().getSymptoms().size() * 0.4) {
-                severityLevel = 2;
-            } else if (anamnesis.getPatientsSymptoms().size() <= diagnosis.getDisease().getSymptoms().size() * 0.6) {
-                severityLevel = 3;
-            } else if (anamnesis.getPatientsSymptoms().size() <= diagnosis.getDisease().getSymptoms().size() * 0.8) {
-                severityLevel = 4;
-            } else {
-                severityLevel = 5;
-            }
 
-            diagnosis.setDiseaseLevel(severityLevel);
+            KieSession severitySession = KieSessionUtils.getDiseaseSeveritySession();
+            severitySession.insert(diagnosis);
+            severitySession.insert(anamnesis);
+            severitySession.fireAllRules();
+
+            System.out.println("Disease level: " + diagnosis.getDiseaseLevel());
             diagnosis.setTimestamp(LocalDateTime.now());
             Diagnosis savedDiagnosis = diagnosisService.save(diagnosis);
 
