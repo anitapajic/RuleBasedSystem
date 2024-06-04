@@ -15,7 +15,7 @@ import { Therapy } from '../../models/Therapy';
 import { formatDate } from '../../utils/functions/formatDateTime';
 
 
-const multipleData = [
+export const multipleData = [
   { text: 'Bol u grlu', group: 'Level 1', value: 1 },
   { text: 'Poteskoce pri gutanju', group: 'Level 1', value: 2 },
   { text: 'Povisena temperatura', group: 'Level 1', value: 3 },

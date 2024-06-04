@@ -50,6 +50,7 @@ export const navbarTitle = "Bacti Cure";
     { href: "/doctor-home-page", value: "New Anamnesis", role: "doctor" },
     { href: "/doctor-patients", value: "Patients", role: "doctor" },
     { href: "/doctor-diseases", value: "Diseases", role: "doctor" },
+    { href: "/doctor-reports", value: "Reports", role: "doctor" },
     { href: "/login", value: "Sign In/Sign up", role: "guest" },
     { href: "/login", value: "Log Out", role: "logged" },
   ];
@@ -61,3 +62,5 @@ export const navbarTitle = "Bacti Cure";
     STOOL_CULTURE: "Stool Culture",
     HEAD_MRI: "Head MRI"
   };
+
+

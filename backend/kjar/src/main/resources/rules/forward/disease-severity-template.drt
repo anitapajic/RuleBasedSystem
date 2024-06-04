@@ -1,0 +1,27 @@
+template header
+threshold1
+threshold2
+severityLevel
+
+package rules.forward;
+dialect  "mvel"
+
+import com.ftn.sbnz.model.models.anamnesis.Anamnesis;
+import com.ftn.sbnz.model.models.anamnesis.AnamnesisEvaluation;
+import com.ftn.sbnz.model.models.diagnosis.Diagnosis;
+import com.ftn.sbnz.model.models.disease.Disease;
+import com.ftn.sbnz.model.models.user.Patient;
+
+template "disease severity rule"
+
+rule "Severity level @{severityLevel}"
+    lock-on-active true
+    when
+        $diagnosis: Diagnosis()
+        $anamnesis: Anamnesis(patientsSymptoms.size() > $$diagnosis.getDisease().getSymptoms().size() * @{threshold1} &&
+                               patientsSymptoms.size() <= $$diagnosis.getDisease().getSymptoms().size() * @{threshold2})
+    then
+        modify($$diagnosis){ setDiseaseLevel(@{severityLevel})};
+end
+
+end template

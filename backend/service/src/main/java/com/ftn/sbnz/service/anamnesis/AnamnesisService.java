@@ -52,5 +52,8 @@ public class AnamnesisService {
         return anamnesisRepository.findByPatientId(id);
     }
 
+    public List<Anamnesis> findAll(){
+        return anamnesisRepository.findAll();
+    }
 
 }

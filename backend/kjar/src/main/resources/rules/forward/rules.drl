@@ -270,7 +270,7 @@ rule "Blood analysis"
         Boolean(booleanValue == false) from $anamnesisEvaluation.isBloodAnalysisResult()
     then
         Random random = new Random();
-        boolean randomValue = random.nextInt(5) != 0; // True u 4/5 slucajeva
+        boolean randomValue = random.nextInt(10) != 0; // True u 4/5 slucajeva
         modify($anamnesisEvaluation) {
             setBloodAnalysisResult(randomValue)
         };
