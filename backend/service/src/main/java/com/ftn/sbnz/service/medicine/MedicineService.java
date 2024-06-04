@@ -13,14 +13,14 @@ public class MedicineService {
     @Autowired
     MedicineRepository medicineRepository;
 
-    private List<Medicine> findAll(){
+    public List<Medicine> findAll(){
         return medicineRepository.findAll();
     }
-    private Medicine findById(Integer id){
+    public Medicine findById(Integer id){
         return medicineRepository.findById(id).orElseThrow(()
                 -> new ResourceNotFoundException("This medicine doesn't exist"));
     }
-    private Medicine findByName(String name){
+    public Medicine findByName(String name){
         return medicineRepository.findByName(name);
     }
 }

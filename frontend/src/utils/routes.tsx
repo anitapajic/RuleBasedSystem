@@ -6,6 +6,7 @@ import DoctorHomePage from "../pages/DoctorHomePage/DoctorHomePage";
 import AllPatientsPage from "../pages/AllPatientsPage/AllPatientsPage";
 import DiseasesPage from "../pages/DiseasesPage/DiseasesPage";
 import ThreapiesPage from "../pages/TherapiesPage/TherapiesPage";
+import ReportPage from "../pages/ReportPage/ReportPage";
 
 
 
@@ -18,6 +19,8 @@ export default function MyRoutes() {
       <Route path="/doctor-patients" element={<AllPatientsPage />} />
       <Route path="/doctor-diseases" element={<DiseasesPage />} />
       <Route path="/patient-home-page" element={<ThreapiesPage />} />
+      <Route path="/doctor-reports" element={<ReportPage />} />
+
 
 
 

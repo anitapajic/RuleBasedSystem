@@ -1,18 +1,25 @@
 package com.ftn.sbnz.service.tests;
 
+import com.ftn.sbnz.model.dto.DiseaseSeverityDTO;
+import com.ftn.sbnz.model.dto.SymptomTemplateDTO;
 import com.ftn.sbnz.model.models.anamnesis.Anamnesis;
 import com.ftn.sbnz.model.models.anamnesis.AnamnesisEvaluation;
 import com.ftn.sbnz.model.models.confirmationTest.enums.TestType;
 import com.ftn.sbnz.model.models.disease.Disease;
 import com.ftn.sbnz.model.models.symptom.Symptom;
 import com.ftn.sbnz.model.models.symptom.enums.SymptomLevel;
+import org.drools.template.ObjectDataCompiler;
 import org.junit.Test;
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
 
 public class RulesTest {
 
@@ -49,6 +56,27 @@ public class RulesTest {
         diseases.add(disease2);
 
         findDisease(anamnesis, diseases);
+    }
+
+    @Test
+    public void testTemplates(){
+        InputStream template = RulesTest.class.getResourceAsStream("/rules/forward/disease-severity-template.drt");
+//        List<SymptomTemplateDTO>  symptomTemplateDTOS = new ArrayList<>();
+//        symptomTemplateDTOS.add(new SymptomTemplateDTO("1", "Povisena temperatura"));
+//        symptomTemplateDTOS.add(new SymptomTemplateDTO("1", "Bol u grlu"));
+//        symptomTemplateDTOS.add(new SymptomTemplateDTO("2", "AAAAAAAA"));
+
+        List<DiseaseSeverityDTO> diseaseSeverityDTOS = new ArrayList<>();
+        diseaseSeverityDTOS.add(new DiseaseSeverityDTO(0.0, 0.2, 1));
+        diseaseSeverityDTOS.add(new DiseaseSeverityDTO(0.2, 0.4, 2));
+        diseaseSeverityDTOS.add(new DiseaseSeverityDTO(0.4, 0.6, 3));
+        diseaseSeverityDTOS.add(new DiseaseSeverityDTO(0.6, 0.8, 4));
+        diseaseSeverityDTOS.add(new DiseaseSeverityDTO(0.8, 1.0, 5));
+        ObjectDataCompiler converter = new ObjectDataCompiler();
+        String drl = converter.compile(diseaseSeverityDTOS, template);
+
+        System.out.println(drl);
+
     }
 
 
