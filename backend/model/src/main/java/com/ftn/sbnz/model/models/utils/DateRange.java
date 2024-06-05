@@ -30,4 +30,11 @@ public class DateRange {
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
+
+    public Boolean isDateInRange(LocalDate localDate) {
+        if (localDate == null || startDate == null || endDate == null) {
+            return false;
+        }
+        return !localDate.isBefore(startDate) && !localDate.isAfter(endDate);
+    }
 }

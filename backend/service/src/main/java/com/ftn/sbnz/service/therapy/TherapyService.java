@@ -1,5 +1,6 @@
 package com.ftn.sbnz.service.therapy;
 
+import com.ftn.sbnz.controller.ReportController;
 import com.ftn.sbnz.model.models.backwardModel.BackwardModel;
 import com.ftn.sbnz.model.models.backwardModel.BackwardType;
 import com.ftn.sbnz.model.models.diagnosis.Diagnosis;
@@ -13,6 +14,7 @@ import com.ftn.sbnz.model.models.utils.DateRange;
 import com.ftn.sbnz.repository.TherapyRepository;
 import com.ftn.sbnz.service.diagnosis.DiagnosisService;
 import com.ftn.sbnz.service.disease.DiseaseService;
+import com.ftn.sbnz.util.KieContainerComponent;
 import com.ftn.sbnz.util.exceptions.ResourceNotFoundException;
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
@@ -35,6 +37,8 @@ public class TherapyService {
     DiagnosisService diagnosisService;
     @Autowired
     DiseaseService diseaseService;
+    @Autowired
+    KieContainerComponent kieContainerComponent;
 
 
     public Therapy findById(Integer id){
@@ -45,10 +49,14 @@ public class TherapyService {
     public List<Therapy> findAll(){
         return therapyRepository.findAll();
     }
+
+    public List<Patient> findAllPatientsByActiveTherapy(Integer diseaseId){
+        if (diseaseId == -1) return therapyRepository.findAllPatientsWithActiveTherapy(LocalDate.now());
+        return therapyRepository.findAllPatientsWithActiveTherapyForDisease(diseaseId, LocalDate.now());
+    }
+
     private KieSession getKieSession(String session) {
-        KieServices ks = KieServices.Factory.get();
-        KieContainer kContainer = ks.getKieClasspathContainer();
-        return kContainer.newKieSession(session);
+        return kieContainerComponent.getkContainer().newKieSession(session);
     }
 
     public Therapy findTherapy(Diagnosis diagnosis){
@@ -98,9 +106,7 @@ public class TherapyService {
     }
 
     public List<Medicine> getMedicines(Disease disease, Patient patient) {
-        KieServices ks = KieServices.Factory.get();
-        KieContainer kContainer = ks.getKieClasspathContainer();
-        KieSession ksession = kContainer.newKieSession("backwardRulesKsession");
+        KieSession ksession = kieContainerComponent.getkContainer().newKieSession("backwardRulesKsession");
 
         List<Medicine> medicines = disease.getMedicines().stream().toList();
 
