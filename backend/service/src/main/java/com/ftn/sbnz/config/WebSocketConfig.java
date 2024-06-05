@@ -20,7 +20,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.setApplicationDestinationPrefixes("/socket-subscriber")
-                .enableSimpleBroker("/socket-publisher", "/temperature", "/oxygen", "/emergency");
+                .enableSimpleBroker("/socket-publisher", "/temperature", "/oxygen");
     }
 
 
