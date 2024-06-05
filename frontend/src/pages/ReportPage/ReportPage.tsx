@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import QueryChart from "../../components/queryChart/QueryChart";
 import { Segmented, SegmentedGroup, setOptions, localeSr, Select } from '@mobiscroll/react';
@@ -5,12 +6,14 @@ import { useEffect, useState } from "react";
 import '@mobiscroll/react/dist/css/mobiscroll.min.css';
 import { Container } from "../../components/homeInfo/HomeInfo.styled";
 import { Wrapper } from "../DoctorHomePage/DoctorHomePage.styled";
-import { StyledSegmented, StyledSelectWrapper } from "./ReportPage.styled";
+import { AllInputContainer, ClearDatesButton, CustomInputLabel, InputContainer, StyledFontAwesomeIcon, StyledSegmented, StyledSelectWrapper } from "./ReportPage.styled";
 import { QueryDTO } from "../../models/QueryDTO";
-import { multipleData } from "../../components/newAnamnesisForm/NewAnamnesisForm";
 import customAxios from "../../services/AxiosInterceptor/AxiosInterceptor";
 import { Medicine } from "../../models/Medicine";
 import { Ingredient } from "../../models/Ingredient";
+import { Symptom } from "../../models/Symptom";
+import { faRefresh } from "@fortawesome/free-solid-svg-icons";
+import { StyledInput } from "../../components/shared/styled/SharedStyles.styled";
 
 export default function ReportPage() {
     setOptions({
@@ -23,16 +26,22 @@ export default function ReportPage() {
     const [selectedValue, setSelectedValue] = useState<number | null>(null);
     const [dataReport1, setDataReport1] = useState<Medicine[]>([]);
     const [dataReport2, setDataReport2] = useState<Ingredient[]>([]);
+    const [dataReport3, setDataReport3] = useState<Symptom[]>([]);
+
+    const [startDate, setStartDate] = useState<string | null>(null);
+    const [endDate, setEndDate] = useState<string | null>(null);
 
     useEffect(() => {
         async function fetchReportOptions() {
             try {
-                const [report1Response, report2Response] = await Promise.all([
+                const [report1Response, report2Response, report3Response] = await Promise.all([
                     customAxios.get('/medicine'),
-                    customAxios.get('/ingredient')
+                    customAxios.get('/ingredient'),
+                    customAxios.get('/symptom')
                 ]);
                 setDataReport1(report1Response.data);
                 setDataReport2(report2Response.data);
+                setDataReport3(report3Response.data);
             } catch (error) {
                 console.error('Error fetching report options:', error);
             }
@@ -50,7 +59,10 @@ export default function ReportPage() {
                 } else if (reportId === '2') {
                     response = await customAxios.get(`/report/report2/${value}`);
                 } else {
-                    response = await customAxios.get(`/report/report3/${value}`);
+                    const params: any = {};
+                    if (startDate) params.startDate = `${startDate}T00:00:00`;
+                    if (endDate) params.endDate = `${endDate}T23:59:59`;
+                    response = await customAxios.get(`/report/report3/${value}`, { params });
                 }
                 console.log(response.data);
                 setQueryData(response.data);
@@ -62,19 +74,26 @@ export default function ReportPage() {
         if (selectedValue !== null) {
             fetchData(selectedReport, selectedValue);
         }
-    }, [selectedReport, selectedValue]);
+    }, [selectedReport, selectedValue, startDate, endDate]);
 
     const handleSegmentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedReport(event.target.value);
         setSelectedValue(null); // Reset selected value when report changes
         setQueryData(null);
+        setStartDate(null);
+        setStartDate(null);
+        setEndDate(null);
     };
 
     const handleChange = (event: { value: number }) => {
         setSelectedValue(event.value);
     };
-      const mapDataToSelectOptions = (data: { id: number; name: string }[]) => {
+    const mapDataToSelectOptions = (data: { id: number; name: string }[]) => {
         return data.map(item => ({ value: item.id, text: item.name }));
+    };
+    const clearDateFilters = () => {
+        setStartDate(null);
+        setEndDate(null);
     };
 
     return (
@@ -90,8 +109,8 @@ export default function ReportPage() {
                             </SegmentedGroup>
                         </div>
                     </StyledSegmented>
-                    <StyledSelectWrapper>
                     {selectedReport === '1' && (
+                        <StyledSelectWrapper>
                             <Select
                                 data={mapDataToSelectOptions(dataReport1)}
                                 selectMultiple={false}
@@ -102,8 +121,10 @@ export default function ReportPage() {
                                 onChange={handleChange}
                                 required={true}
                             />
-                        )}
-                        {selectedReport === '2' && (
+                        </StyledSelectWrapper>
+                    )}
+                    {selectedReport === '2' && (
+                        <StyledSelectWrapper>
                             <Select
                                 data={mapDataToSelectOptions(dataReport2)}
                                 selectMultiple={false}
@@ -114,20 +135,48 @@ export default function ReportPage() {
                                 onChange={handleChange}
                                 required={true}
                             />
-                        )}
-                        {selectedReport === '3' && (
-                            <Select
-                                data={multipleData}
-                                selectMultiple={false}
-                                label="Select symptom for Report 3"
-                                inputStyle="outline"
-                                labelStyle="stacked"
-                                placeholder="Symptoms"
-                                onChange={handleChange}
-                                required={true}
-                            />
-                        )}
-                    </StyledSelectWrapper>
+                        </StyledSelectWrapper>
+                    )}
+                    {selectedReport === '3' && (
+                        <>
+                        <AllInputContainer>
+                                <InputContainer>
+                                    <CustomInputLabel>From: </CustomInputLabel>
+                                    <StyledInput
+                                        type="date"
+                                        value={startDate ?? ''}
+                                        onChange={(e) => setStartDate(e.target.value || null)}
+                                        placeholder="Choose start date"
+                                        isValid={true}
+                                    />
+                                </InputContainer>
+                                <InputContainer>
+                                    <CustomInputLabel>To: </CustomInputLabel>
+                                    <StyledInput
+                                        type="date"
+                                        value={endDate ?? ''}
+                                        onChange={(e) => setEndDate(e.target.value || null)}
+                                        min={startDate ?? ''}
+                                        placeholder="Choose end date"
+                                        isValid={true}
+                                    />
+                                </InputContainer>
+                                <ClearDatesButton onClick={clearDateFilters}>{<StyledFontAwesomeIcon icon={faRefresh} />} </ClearDatesButton>
+                            </AllInputContainer>
+                            <StyledSelectWrapper>
+                                <Select
+                                    data={mapDataToSelectOptions(dataReport3)}
+                                    selectMultiple={false}
+                                    label="Select symptom for Report 3"
+                                    inputStyle="outline"
+                                    labelStyle="stacked"
+                                    placeholder="Symptoms"
+                                    onChange={handleChange}
+                                    required={true}
+                                />
+                            </StyledSelectWrapper>
+                        </>
+                    )}
                     {queryData && <QueryChart queryData={queryData} />}
                 </Wrapper>
             </Container>

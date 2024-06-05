@@ -3,7 +3,7 @@ import { useState } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 import { LoginUser } from './models/User';
 import { menuOptions, navbarTitle, theme } from './utils/data';
-import {toast, ToastContainer} from 'react-toastify';
+import {ToastContainer} from 'react-toastify';
 import { ThemeProvider } from 'styled-components';
 import { AppContainer, ContentContainer } from './App.styled';
 import Footer from './components/shared/footer/Footer';

@@ -15,6 +15,7 @@ import com.ftn.sbnz.service.medicine.MedicineService;
 import com.ftn.sbnz.service.symptom.SymptomService;
 import com.ftn.sbnz.service.therapy.TherapyService;
 import com.ftn.sbnz.service.user.PatientService;
+import com.ftn.sbnz.util.KieContainerComponent;
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
@@ -45,11 +46,15 @@ public class ReportService {
     private SymptomService symptomService;
     @Autowired
     private AnamnesisService anamnesisService;
+    @Autowired
+    private KieContainerComponent kieContainerComponent;
+
+    private KieSession getKieSession(String session) {
+        return kieContainerComponent.getkContainer().newKieSession(session);
+    }
 
     public Query1DTO getReport1(Integer medicineId){
-        KieServices ks = KieServices.Factory.get();
-        KieContainer kContainer = ks.getKieClasspathContainer();
-        KieSession kSession = kContainer.newKieSession("backwardRulesKsession");
+        KieSession kSession = getKieSession("backwardRulesKsession");
         Query1DTO query1DTO = new Query1DTO();
 
         List<Therapy> therapies = therapyService.findAll();
@@ -88,9 +93,7 @@ public class ReportService {
     }
 
     public Query1DTO getReport2(Integer ingredientId){
-        KieServices ks = KieServices.Factory.get();
-        KieContainer kContainer = ks.getKieClasspathContainer();
-        KieSession kSession = kContainer.newKieSession("backwardRulesKsession");
+        KieSession kSession = getKieSession("backwardRulesKsession");
         Query1DTO query1DTO = new Query1DTO();
 
         List<Patient> patients = patientService.findAll();
@@ -126,9 +129,7 @@ public class ReportService {
     }
 
     public Query1DTO getReport3(Integer symptomId, LocalDateTime startDate, LocalDateTime endDate){
-        KieServices ks = KieServices.Factory.get();
-        KieContainer kContainer = ks.getKieClasspathContainer();
-        KieSession kSession = kContainer.newKieSession("backwardRulesKsession");
+        KieSession kSession = getKieSession("backwardRulesKsession");
         Query1DTO query1DTO = new Query1DTO();
 
         Symptom symptom = symptomService.findById(symptomId);

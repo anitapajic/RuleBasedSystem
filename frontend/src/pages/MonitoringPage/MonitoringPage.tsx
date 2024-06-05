@@ -1,19 +1,19 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import SockJsClient from 'react-stomp';
 import { useEffect, useState } from "react";
 
 import '@mobiscroll/react/dist/css/mobiscroll.min.css';
-import {localeSr, Segmented, SegmentedGroup, setOptions} from "@mobiscroll/react";
-import {StyledSegmented} from "../ReportPage/ReportPage.styled.tsx";
-import {Wrapper} from "../DoctorHomePage/DoctorHomePage.styled.tsx";
-import {Container} from "../../components/homeInfo/HomeInfo.styled.tsx";
+import { localeSr, Segmented, SegmentedGroup, setOptions } from "@mobiscroll/react";
+import { StyledSegmented } from "../ReportPage/ReportPage.styled.tsx";
+import { Wrapper } from "../DoctorHomePage/DoctorHomePage.styled.tsx";
+import { Container } from "../../components/homeInfo/HomeInfo.styled.tsx";
 import MonitoringTable from "../../components/monitoring/MonitoringTable.tsx";
 import PatientService from "../../services/PatientService/PatientService.tsx";
-import {Patient, PatientMonitoring} from "../../models/Patient.ts";
-import {Simulate} from "react-dom/test-utils";
-import error = Simulate.error;
-import {toast} from "react-toastify";
+import { PatientMonitoring } from "../../models/Patient.ts";
+import { Name } from '../AllPatientsPage/AllPatientsPage.styled.tsx';
+import { TableCardContainer } from './MonitoringPage.styled.tsx';
 
-export default function MonitoringPage () {
+export default function MonitoringPage() {
     setOptions({
         locale: localeSr,
         theme: 'ios',
@@ -27,12 +27,10 @@ export default function MonitoringPage () {
 
     const handleSegmentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedMonitoring(event.target.value);
-        // setSelectedValue(null); // Reset selected value when report changes
-        // setQueryData(null);
     };
 
     const handleMessage = (topic: string, message: any) => {
-        if (topic == "/temperature/all" && selectedMonitoring == "temperature"){
+        if (topic == "/temperature/all" && selectedMonitoring == "temperature") {
             const newPatientMonitoring: PatientMonitoring[] = tableData.map(item => {
                 if (item.id === message.patientId) {
                     return {
@@ -43,7 +41,7 @@ export default function MonitoringPage () {
                 return item;
             });
             setTableData(newPatientMonitoring);
-        } else if (topic == "/oxygen/all" && selectedMonitoring == "oxygen"){
+        } else if (topic == "/oxygen/all" && selectedMonitoring == "oxygen") {
             const newPatientMonitoring: PatientMonitoring[] = tableData.map(item => {
                 if (item.id === message.patientId) {
                     return {
@@ -78,8 +76,8 @@ export default function MonitoringPage () {
     return (
         <div>
             <SockJsClient url='http://localhost:8080/socket' topics={['/temperature/all', '/oxygen/all']}
-                          onMessage={(msg, topic) => { handleMessage(topic, msg) }}
-                           />
+                onMessage={(msg, topic) => { handleMessage(topic, msg) }}
+            />
             <Container>
                 <Wrapper>
                     <StyledSegmented>
@@ -90,7 +88,11 @@ export default function MonitoringPage () {
                             </SegmentedGroup>
                         </div>
                     </StyledSegmented>
-                    <MonitoringTable monitoringType={selectedMonitoring} patientMonitoring={tableData}></MonitoringTable>
+                        <TableCardContainer>
+                            <Name>Therapies</Name>
+                            <MonitoringTable monitoringType={selectedMonitoring} patientMonitoring={tableData}></MonitoringTable>
+                        </TableCardContainer>
+                    
                 </Wrapper>
             </Container>
 

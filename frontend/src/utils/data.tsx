@@ -51,9 +51,9 @@ export const navbarTitle = "Bacti Cure";
     { href: "/doctor-patients", value: "Patients", role: "doctor" },
     { href: "/doctor-diseases", value: "Diseases", role: "doctor" },
     { href: "/doctor-reports", value: "Reports", role: "doctor" },
+    { href: "/monitoring", value: "Monitoring", role: "doctor" },
     { href: "/login", value: "Sign In/Sign up", role: "guest" },
     { href: "/login", value: "Log Out", role: "logged" },
-    { href: "/monitoring", value: "Monitoring", role: "doctor" },
   ];
 
   export const testTypeMappings: { [key in TestType]: string } = {
