@@ -7,6 +7,7 @@ import AllPatientsPage from "../pages/AllPatientsPage/AllPatientsPage";
 import DiseasesPage from "../pages/DiseasesPage/DiseasesPage";
 import ThreapiesPage from "../pages/TherapiesPage/TherapiesPage";
 import ReportPage from "../pages/ReportPage/ReportPage";
+import MonitoringPage from "../pages/MonitoringPage/MonitoringPage.tsx";
 
 
 
@@ -20,6 +21,7 @@ export default function MyRoutes() {
       <Route path="/doctor-diseases" element={<DiseasesPage />} />
       <Route path="/patient-home-page" element={<ThreapiesPage />} />
       <Route path="/doctor-reports" element={<ReportPage />} />
+      <Route path="/monitoring" element={<MonitoringPage />} />
 
 
 

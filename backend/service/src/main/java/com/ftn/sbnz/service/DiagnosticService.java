@@ -8,6 +8,7 @@ import com.ftn.sbnz.model.models.user.Patient;
 import com.ftn.sbnz.service.diagnosis.DiagnosisService;
 import com.ftn.sbnz.service.disease.DiseaseService;
 import com.ftn.sbnz.service.user.PatientService;
+import com.ftn.sbnz.util.KieContainerComponent;
 import com.ftn.sbnz.util.KieSessionUtils;
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
@@ -28,11 +29,11 @@ public class DiagnosticService {
     private DiagnosisService diagnosisService;
     @Autowired
     private PatientService patientService;
+    @Autowired
+    private KieContainerComponent kieContainerComponent;
 
     private KieSession getKieSession(String session) {
-        KieServices ks = KieServices.Factory.get();
-        KieContainer kContainer = ks.getKieClasspathContainer();
-        return kContainer.newKieSession(session);
+        return kieContainerComponent.getkContainer().newKieSession(session);
     }
 
     public AnamnesisEvaluation findDisease(Anamnesis anamnesis){

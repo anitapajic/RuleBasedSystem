@@ -3,7 +3,7 @@ import { useState } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 import { LoginUser } from './models/User';
 import { menuOptions, navbarTitle, theme } from './utils/data';
-import { ToastContainer } from 'react-toastify';
+import {toast, ToastContainer} from 'react-toastify';
 import { ThemeProvider } from 'styled-components';
 import { AppContainer, ContentContainer } from './App.styled';
 import Footer from './components/shared/footer/Footer';
@@ -14,6 +14,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faArrowRight, faMapMarkerAlt, faBuilding, faArrowDown, faArrowUp, faMedal, faShieldAlt, faHourglass } from '@fortawesome/free-solid-svg-icons';
 import { BrowserRouter as Router } from "react-router-dom";
 import MyRoutes from "./utils/routes";
+
 
 function App() {
 

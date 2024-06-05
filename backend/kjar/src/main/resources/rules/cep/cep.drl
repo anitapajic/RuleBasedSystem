@@ -3,7 +3,14 @@ package cep;
 import com.ftn.sbnz.model.events.TemperatureEvent
 import com.ftn.sbnz.model.events.OxygenEvent
 import com.ftn.sbnz.model.events.DiarrheaEvent
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ftn.sbnz.model.dto.EmergencyMessageDTO;
+import com.ftn.sbnz.model.dto.EmergencyType;
 import java.util.Date;
+
+global SimpMessagingTemplate simpMessagingTemplate;
+global ObjectMapper jsonMapper;
 
 declare TemperatureAlarm
     @role(event)
@@ -61,6 +68,12 @@ when
         this after[0s, 2h] $alarm
     )
 then
+    EmergencyMessageDTO emergencyMessageDTO = new EmergencyMessageDTO($patientId,
+                                        "Urgent doctor intervention needed for patient : " + $patientName
+                                        + " because of high body temperature " + $temperatureValue,
+                                        $patientName, EmergencyType.HIGH_TEMPERATURE);
+    String payload = jsonMapper.writeValueAsString(emergencyMessageDTO);
+    simpMessagingTemplate.convertAndSend("/emergency/all", payload);
     System.out.println("Potrebna je hitna intervencija za pacijenta: " + $patientName + " zbog visoke temperature od " + $temperatureValue);
 end
 
@@ -87,7 +100,7 @@ end
 
 rule "Generate oxygen emergency intervention"
     when
-        $oxygenAlarm: OxygenAlarm($patientId: patientId)
+        $oxygenAlarm: OxygenAlarm($patientId: patientId, $patientName: patientName)
         Number(intValue >= 3) from accumulate(
             $oxygenAlarm2: OxygenAlarm(patientId == $patientId)
             over window: time(12h), count($oxygenAlarm2)
@@ -95,6 +108,12 @@ rule "Generate oxygen emergency intervention"
         not OxygenEmergency(patientId == $patientId)
     then
         insert(new OxygenEmergency($patientId));
+        EmergencyMessageDTO emergencyMessageDTO = new EmergencyMessageDTO($patientId,
+                                                "Urgent doctor intervention needed for patient : " + $patientName
+                                                + " because of low oxygen saturation.",
+                                                $patientName, EmergencyType.LOW_OXYGEN_SATURATION);
+            String payload = jsonMapper.writeValueAsString(emergencyMessageDTO);
+            simpMessagingTemplate.convertAndSend("/emergency/all", payload);
         System.out.println("Emergency! Oxygen low for 12 hours.");
 end
 
@@ -108,6 +127,12 @@ rule "Generate intravenous fluids notification"
         not IntravenousFluids(patientId == $patientId)
     then
         insert(new IntravenousFluids($patientId, $patientName));
+        EmergencyMessageDTO emergencyMessageDTO = new EmergencyMessageDTO($patientId,
+                                                "Intravenous fluids needed for patient : " + $patientName
+                                                + " because of many diarrhea episodes ",
+                                                $patientName, EmergencyType.INTRAVENOUS_FLUIDS);
+        String payload = jsonMapper.writeValueAsString(emergencyMessageDTO);
+        simpMessagingTemplate.convertAndSend("/emergency/all", payload);
         System.out.println("Intravenous fluids needed for patient " + $patientName);
 end
 

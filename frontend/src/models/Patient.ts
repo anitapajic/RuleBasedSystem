@@ -5,3 +5,7 @@ export interface Patient extends User{
     weight:number;
 }
 
+export interface PatientMonitoring extends Patient{
+    monitoringValue: number
+}
+

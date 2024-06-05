@@ -72,6 +72,7 @@ public class WebSecurityConfig {
                 .requestMatchers("/api/user/register").permitAll()
                 .requestMatchers("/images/**").permitAll()
                 .requestMatchers("/api/user/login").permitAll()
+                .requestMatchers("/api/simulation/diarrhea").permitAll()
                 .requestMatchers("/socket/**").permitAll()
                 .requestMatchers("/swagger-ui/**").permitAll()
                 .requestMatchers("/v3/**").permitAll()
