@@ -12,6 +12,8 @@ import { Link } from "react-router-dom";
 import UserContext from "../../../utils/UserContext/userContext";
 import Modal from "../modal/Modal";
 import AddAllergenForm from "../../addAllergenForm/AddAllergenForm";
+import SockJsClient from 'react-stomp';
+import {toast} from "react-toastify";
 
 export interface NavbarProps {
   title: string;
@@ -47,11 +49,32 @@ export default function Navbar({
     setIsModalVisible(false);
   };
 
-
+  const handleMessage = (topic: string, message: any) => {
+    if (topic == "/emergency/all") {
+      toast.error(
+          <div>
+            <h2>Emergency!</h2> patient with id {message.patientId}!
+            <br />
+            {message.message}
+          </div>,
+          {
+            position: "top-center",
+            style: {
+              backgroundColor: "#b0282f",
+              color: "#fcedee",
+              fontSize: "large"
+            },
+            autoClose: 5000
+          });
+    }
+  }
 
   return (
     <>
       <NavbarStyle>
+        <SockJsClient url='http://localhost:8080/socket' topics={['/emergency/all']}
+                      onMessage={(msg, topic) => { handleMessage(topic, msg) }}
+        />
         <Title as={Link} to={"/"}>
           {title}
         </Title>

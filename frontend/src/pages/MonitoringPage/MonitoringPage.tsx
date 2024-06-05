@@ -11,6 +11,7 @@ import PatientService from "../../services/PatientService/PatientService.tsx";
 import {Patient, PatientMonitoring} from "../../models/Patient.ts";
 import {Simulate} from "react-dom/test-utils";
 import error = Simulate.error;
+import {toast} from "react-toastify";
 
 export default function MonitoringPage () {
     setOptions({
@@ -32,7 +33,6 @@ export default function MonitoringPage () {
 
     const handleMessage = (topic: string, message: any) => {
         if (topic == "/temperature/all" && selectedMonitoring == "temperature"){
-            console.log(message)
             const newPatientMonitoring: PatientMonitoring[] = tableData.map(item => {
                 if (item.id === message.patientId) {
                     return {
@@ -44,7 +44,6 @@ export default function MonitoringPage () {
             });
             setTableData(newPatientMonitoring);
         } else if (topic == "/oxygen/all" && selectedMonitoring == "oxygen"){
-            console.log("message")
             const newPatientMonitoring: PatientMonitoring[] = tableData.map(item => {
                 if (item.id === message.patientId) {
                     return {

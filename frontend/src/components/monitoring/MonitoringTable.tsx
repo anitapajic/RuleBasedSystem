@@ -38,7 +38,7 @@ export default function MonitoringTable({ monitoringType, patientMonitoring } : 
                         ))
                     ) : (
                         <tr>
-                            <td colSpan={5}><h2>No data</h2></td>
+                            <td colSpan={6}><h2>No data</h2></td>
                         </tr>
                     )}
 

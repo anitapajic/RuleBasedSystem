@@ -2,6 +2,9 @@ package com.ftn.sbnz.service.simulation;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ftn.sbnz.model.dto.EmergencyMessageDTO;
+import com.ftn.sbnz.model.dto.EmergencyType;
+import com.ftn.sbnz.model.events.DiarrheaEvent;
 import com.ftn.sbnz.model.events.OxygenEvent;
 import com.ftn.sbnz.model.events.TemperatureEvent;
 import com.ftn.sbnz.model.models.user.Patient;
@@ -45,7 +48,8 @@ public class SimulationService {
         this.simpMessagingTemplate = simpMessagingTemplate;
         this.jsonMapper = jsonMapper;
         ksession = this.kieContainerComponent.getkContainer().newKieSession("cepRulesKsession");
-
+        ksession.setGlobal("simpMessagingTemplate", this.simpMessagingTemplate);
+        ksession.setGlobal("jsonMapper", this.jsonMapper);
         clock = ksession.getSessionClock();
     }
 
@@ -92,6 +96,28 @@ public class SimulationService {
         ksession.fireAllRules();
         clock.advanceTime(1, TimeUnit.HOURS);
         clock.advanceTime(1, TimeUnit.MINUTES);
+    }
+
+    public void triggerIntravenousFluids(){
+        ksession.insert(new DiarrheaEvent(1, "Anita"));
+        ksession.insert(new DiarrheaEvent(1, "Anita"));
+        ksession.insert(new DiarrheaEvent(1, "Anita"));
+        ksession.insert(new DiarrheaEvent(1, "Anita"));
+        ksession.insert(new DiarrheaEvent(1, "Anita"));
+
+        ksession.fireAllRules();
+
+//        EmergencyMessageDTO emergencyMessageDTO = new EmergencyMessageDTO(1,
+//                "Intravenous fluids needed for patient : " + "Anita"
+//                        + " because of many diarrhea episodes ",
+//                "Anita", EmergencyType.INTRAVENOUS_FLUIDS);
+//        String payload = null;
+//        try {
+//            payload = jsonMapper.writeValueAsString(emergencyMessageDTO);
+//        } catch (JsonProcessingException e) {
+//            throw new RuntimeException(e);
+//        }
+//        simpMessagingTemplate.convertAndSend("/emergency/all", payload);
     }
 
 }
