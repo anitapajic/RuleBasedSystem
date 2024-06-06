@@ -4,14 +4,15 @@ import { useEffect, useState } from "react";
 
 import '@mobiscroll/react/dist/css/mobiscroll.min.css';
 import { localeSr, Segmented, SegmentedGroup, setOptions } from "@mobiscroll/react";
-import { StyledSegmented } from "../ReportPage/ReportPage.styled.tsx";
 import { Wrapper } from "../DoctorHomePage/DoctorHomePage.styled.tsx";
 import { Container } from "../../components/homeInfo/HomeInfo.styled.tsx";
 import MonitoringTable from "../../components/monitoring/MonitoringTable.tsx";
 import PatientService from "../../services/PatientService/PatientService.tsx";
 import { PatientMonitoring } from "../../models/Patient.ts";
 import { Name } from '../AllPatientsPage/AllPatientsPage.styled.tsx';
-import { TableCardContainer } from './MonitoringPage.styled.tsx';
+import { StyledSegmented, TableCardContainer } from './MonitoringPage.styled.tsx';
+import { Button } from '../../components/newAnamnesisForm/NewAnamnesisForm.styled.tsx';
+import customAxios from '../../services/AxiosInterceptor/AxiosInterceptor.tsx';
 
 export default function MonitoringPage() {
     setOptions({
@@ -73,6 +74,11 @@ export default function MonitoringPage() {
         })
     }, [selectedMonitoring]);
 
+
+    const handleSalmonellosis = () => {
+        customAxios.get('/simulation/diarrhea');
+    }
+
     return (
         <div>
             <SockJsClient url='http://localhost:8080/socket' topics={['/temperature/all', '/oxygen/all']}
@@ -85,14 +91,22 @@ export default function MonitoringPage() {
                             <SegmentedGroup name="range" onChange={handleSegmentChange}>
                                 <Segmented value="temperature" defaultChecked={true}>Temperature</Segmented>
                                 <Segmented value="oxygen">Oxygen</Segmented>
+                                <Segmented value="salmonellosis">Salmonellosis</Segmented>
                             </SegmentedGroup>
                         </div>
                     </StyledSegmented>
+                    {selectedMonitoring == "salmonellosis" ? (
+                        <>
+                            <Button type="button" onClick={handleSalmonellosis}>
+                                Simulate monitoring for salmonellosis
+                            </Button>
+                        </>
+                    ) : (
                         <TableCardContainer>
                             <Name>Therapies</Name>
                             <MonitoringTable monitoringType={selectedMonitoring} patientMonitoring={tableData}></MonitoringTable>
                         </TableCardContainer>
-                    
+                    )}
                 </Wrapper>
             </Container>
 
