@@ -76,7 +76,11 @@ public class TherapyService {
 
         TherapyEvaluation therapyEvaluation = new TherapyEvaluation();
         therapyEvaluation.setMedicinePrescribed(false);
+        therapyEvaluation.setBiggerDoseNeeded(false);
+        therapyEvaluation.setBiggerFrequencyNeeded(false);
+        therapyEvaluation.setFrequency(0);
         therapyEvaluation.setPatientAge(LocalDate.now().getYear() - diagnosis.getPatient().getBirthDate().getYear());
+        System.out.println(therapyEvaluation.getPatientAge());
         therapyEvaluation.setDiseaseLevel(diagnosis.getDiseaseLevel());
         kieSession.insert(therapyEvaluation);
 
@@ -90,6 +94,9 @@ public class TherapyService {
                 .get(0);
 
         kieSession.dispose();
+        System.out.println(therapyEvaluation1.getMedicinePrescribed());
+        System.out.println(therapyEvaluation1.getBiggerDoseNeeded());
+        System.out.println(therapyEvaluation1.getDiseaseLevel());
 
         return save(therapyEvaluation1, diagnosis, medicine);
 

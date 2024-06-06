@@ -31,37 +31,37 @@ INSERT INTO patients (id, birth_date, weight) VALUES (1, '2001-09-25 00:00:00.0'
 INSERT INTO patients (id, birth_date, weight) VALUES (3, '2000-05-21 00:00:00.0', 85.0);
 
 -- SYMPTOMS --
-INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Bol u grlu', 'LEVEL_1');
-INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Poteskoce pri gutanju', 'LEVEL_1');
-INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Povisena temperatura', 'LEVEL_1');
-INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Belicaste tacke na krajnicima', 'LEVEL_2');
-INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Crvenilo grla', 'LEVEL_2');
-INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Bolni limfni cvorovi', 'LEVEL_2');
+INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Sore throat', 'LEVEL_1');
+INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Difficulty swallowing', 'LEVEL_1');
+INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Fever', 'LEVEL_1');
+INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('White spots on tonsils', 'LEVEL_2');
+INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Throat redness', 'LEVEL_2');
+INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Painful lymph nodes', 'LEVEL_2');
 
-INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Kasalj', 'LEVEL_1');
-INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Zimica', 'LEVEL_1');
-INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Bolovi u grudima', 'LEVEL_1');
-INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Otezano disanje', 'LEVEL_1');
-INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Krckanje u plucima', 'LEVEL_2');
+INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Cough', 'LEVEL_1');
+INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Chills', 'LEVEL_1');
+INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Chest pain', 'LEVEL_1');
+INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Shortness of breath', 'LEVEL_1');
+INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Crackling in the lungs', 'LEVEL_2');
 
-INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Hronican kasalj sa krvavom pljuvackom', 'LEVEL_1');
-INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Gubitak telesne tezine', 'LEVEL_1');
-INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Nocno znojenje', 'LEVEL_1');
+INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Chronic cough with bloody sputum', 'LEVEL_1');
+INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Weight loss', 'LEVEL_1');
+INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Night sweats', 'LEVEL_1');
 
-INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Dijareja', 'LEVEL_2');
-INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Bolovi u stomaku', 'LEVEL_1');
-INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Povracanje', 'LEVEL_1');
+INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Diarrhea', 'LEVEL_2');
+INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Abdominal pain', 'LEVEL_1');
+INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Vomiting', 'LEVEL_1');
 
-INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Jaka glavobolja', 'LEVEL_1');
-INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Pojava osipa', 'LEVEL_1');
-INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Ukocenost vrata', 'LEVEL_2');
-INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Zbunjenost ili promene u ponasanju', 'LEVEL_2');
+INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Severe headache', 'LEVEL_1');
+INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Rash', 'LEVEL_1');
+INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Neck stiffness', 'LEVEL_2');
+INSERT INTO SYMPTOMS (name, symptom_level) VALUES ('Confusion or behavioral changes', 'LEVEL_2');
 
 -- DISEASES --
-INSERT INTO diseases (name, test_type) VALUES ('Streptokokna upala grla', 'RAPID_STREP_TEST');
-INSERT INTO diseases (name, test_type) VALUES ('Bakterijska pneumonija', 'CHEST_X_RAY');
-INSERT INTO diseases (name, test_type) VALUES ('Tuberkuloza', 'SPUTUM_TEST');
-INSERT INTO diseases (name, test_type) VALUES ('Salmoneloza', 'STOOL_CULTURE');
+INSERT INTO diseases (name, test_type) VALUES ('Strep throat', 'RAPID_STREP_TEST');
+INSERT INTO diseases (name, test_type) VALUES ('Bacterial pneumonia', 'CHEST_X_RAY');
+INSERT INTO diseases (name, test_type) VALUES ('Tuberculosis', 'SPUTUM_TEST');
+INSERT INTO diseases (name, test_type) VALUES ('Salmonellosis', 'STOOL_CULTURE');
 INSERT INTO diseases (name, test_type) VALUES ('Meningitis', 'HEAD_MRI');
 
 -- DISEASES <-> SYMPTOMS --

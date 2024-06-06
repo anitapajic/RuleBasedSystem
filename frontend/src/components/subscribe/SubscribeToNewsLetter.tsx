@@ -26,11 +26,11 @@ function SubscribeNewsletter() {
           })
         : toast.error("Invalid Email Address !", {
             position: "top-center",
-            style: {
-                backgroundColor: "red",
-                color: "white",
-                fontSize: "large"
-            },
+            // style: {
+            //     backgroundColor: "red",
+            //     color: "white",
+            //     fontSize: "large"
+            // },
             onOpen: () => setIsButtonDisabled(true),
             onClose: () => setIsButtonDisabled(false),
           });

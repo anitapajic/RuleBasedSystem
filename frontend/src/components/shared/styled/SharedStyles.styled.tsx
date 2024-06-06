@@ -43,12 +43,12 @@ export const StyledLabel = styled.label`
 export const StyledInput = styled.input<{ isValid?: boolean }>`
   width: 160px;
   padding: 8px;
-  border: 2px solid;
-  border-color: ${({ theme, isValid }) =>
-    isValid ? theme.colors.main : "red"};
+  border: 1px solid;
+  border-color: grey;
   border-radius: 8px;
   font-size: ${({ theme }) => theme.fontSizes.standard};
   margin: 5px;
+  background-color: whitesmoke;
 `;
 
 export const ButtonGroup = styled.div`

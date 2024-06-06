@@ -12,7 +12,7 @@ import java.util.Random
 import java.util.List;
 
 rule "Prescribe medicine to patient"
-    lock-on-active true
+    no-loop
     when
         $therapyEvaluation: TherapyEvaluation()
         Boolean(booleanValue == false) from $therapyEvaluation.getMedicinePrescribed()
@@ -28,10 +28,11 @@ rule "Prescribe medicine to patient"
 end
 
 rule "Infection level is bigger than 2"
-    lock-on-active true
+no-loop
     when
         $therapyEvaluation: TherapyEvaluation()
         Boolean(booleanValue == true) from $therapyEvaluation.getMedicinePrescribed()
+        Boolean(booleanValue == false) from $therapyEvaluation.getBiggerDoseNeeded()
         $diagnosis: Diagnosis(diseaseLevel >= 2)
     then
         modify($therapyEvaluation) {
@@ -40,25 +41,27 @@ rule "Infection level is bigger than 2"
 end
 
 rule "Give bigger dose if patient has more than 16 years"
-    lock-on-active true
+    no-loop
     when
         $therapyEvaluation: TherapyEvaluation(patientAge > 16)
         Boolean(booleanValue == true) from $therapyEvaluation.getBiggerDoseNeeded()
+        Boolean(booleanValue == false) from $therapyEvaluation.getBiggerFrequencyNeeded()
     then
         modify($therapyEvaluation) {
-            setMilligrams(400)
+            setMilligrams(400),
+            setBiggerFrequencyNeeded(true)
         }
 end
 
 rule "Give bigger frequency if patient has more than 50 kilos"
-    lock-on-active true
+    no-loop
     when
-        $therapyEvaluation: TherapyEvaluation(patientAge > 16)
+        $therapyEvaluation: TherapyEvaluation()
         $diagnosis: Diagnosis()
-        Boolean(booleanValue == true) from $therapyEvaluation.getBiggerDoseNeeded()
+        Boolean(booleanValue == true) from $therapyEvaluation.getBiggerFrequencyNeeded()
         $patient: Patient() from $diagnosis.getPatient()
         $patientWeight: Double() from $patient.getWeight()
-        eval($patientWeight > 50)
+        Boolean(booleanValue == true) from $patientWeight > 50
     then
         modify($therapyEvaluation) {
             setFrequency(3)

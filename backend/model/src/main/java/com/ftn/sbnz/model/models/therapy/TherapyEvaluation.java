@@ -10,10 +10,11 @@ public class TherapyEvaluation {
     private boolean isMedicinePrescribed;
     private Integer milligrams;
     private Integer frequency;
+    private Boolean isBiggerFrequencyNeeded;
 
     public TherapyEvaluation(){}
     public TherapyEvaluation(Integer diseaseLevel, String medicineName, Integer patientAge, boolean isBiggerDoseNeeded,
-                             boolean isMedicinePrescribed, Integer milligrams, Integer frequency) {
+                             boolean isMedicinePrescribed, Integer milligrams, Integer frequency, Boolean isBiggerFrequencyNeeded) {
         this.diseaseLevel = diseaseLevel;
         this.medicineName = medicineName;
         this.patientAge = patientAge;
@@ -21,6 +22,15 @@ public class TherapyEvaluation {
         this.isMedicinePrescribed = isMedicinePrescribed;
         this.milligrams = milligrams;
         this.frequency = frequency;
+        this.isBiggerFrequencyNeeded = isBiggerFrequencyNeeded;
+    }
+
+    public Boolean getBiggerFrequencyNeeded() {
+        return this.isBiggerFrequencyNeeded;
+    }
+
+    public void setBiggerFrequencyNeeded(Boolean biggerFrequencyNeeded) {
+        this.isBiggerFrequencyNeeded = biggerFrequencyNeeded;
     }
 
     public Integer getMilligrams() {

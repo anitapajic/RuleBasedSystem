@@ -3,7 +3,7 @@
 import { Select, setOptions, localeSr } from '@mobiscroll/react';
 import '@mobiscroll/react/dist/css/mobiscroll.min.css';
 import { Container, StyledSelectWrapper, Input, InputDescription, Button, Gif } from './NewAnamnesisForm.styled';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Title, Wrapper } from '../../pages/DoctorHomePage/DoctorHomePage.styled';
 import { newAnamnesis } from '../../models/Anamnesis';
 import useUser from '../../utils/UserContext/useUser';
@@ -13,40 +13,10 @@ import { StyledLabel } from '../shared/styled/SharedStyles.styled';
 import TherapyService from '../../services/TherapyService/TherapyService';
 import { Therapy } from '../../models/Therapy';
 import { formatDate } from '../../utils/functions/formatDateTime';
+import { Symptom } from '../../models/Symptom';
+import customAxios from '../../services/AxiosInterceptor/AxiosInterceptor';
+import { symptomLevel } from '../../models/enums/SymptomLevel';
 
-
-export const multipleData = [
-  { text: 'Bol u grlu', group: 'Level 1', value: 1 },
-  { text: 'Poteskoce pri gutanju', group: 'Level 1', value: 2 },
-  { text: 'Povisena temperatura', group: 'Level 1', value: 3 },
-  { text: 'Belicaste tacke na krajnicima', group: 'Level 2', value: 4 },
-  { text: 'Crvenilo grla', group: 'Level 2', value: 5 },
-  { text: 'Bolni limfni cvorovi', group: 'Level 2', value: 6 },
-
-  { text: 'Kasalj', group: 'Level 1', value: 7 },
-  { text: 'Zimica', group: 'Level 1', value: 8 },
-  { text: 'Bolovi u grudima', group: 'Level 1', value: 9 },
-  { text: 'Otezano disanje', group: 'Level 1', value: 10 },
-  { text: 'Krckanje u plucima', group: 'Level 2', value: 11 },
-
-  { text: 'Hronican kasalj sa krvavom pljuvackom', group: 'Level 1', value: 12 },
-  { text: 'Gubitak telesne tezine', group: 'Level 1', value: 13 },
-  { text: 'Nocno znojenje', group: 'Level 1', value: 14 },
-
-  { text: 'Dijareja', group: 'Level 2', value: 15 },
-  { text: 'Bolovi u stomaku', group: 'Level 1', value: 16 },
-  { text: 'Povracanje', group: 'Level 1', value: 17 },
-
-  { text: 'Jaka glavobolja', group: 'Level 1', value: 18 },
-  { text: 'Pojava osipa', group: 'Level 1', value: 19 },
-  { text: 'Ukocenost vrata', group: 'Level 2', value: 20 },
-  { text: 'Zbunjenost ili promene u ponasanju', group: 'Level 2', value: 21 },
-];
-
-const booleanOptions = [
-  { text: 'YES', value: 1 },
-  { text: 'NO', value: 2 },
-]
 
 const defaultAnamnesisEvaluation : AnamnesisEvaluation = {
   symptoms:[],
@@ -54,7 +24,7 @@ const defaultAnamnesisEvaluation : AnamnesisEvaluation = {
   level2Symptoms:0,
   bloodAnalysisNeeded:false,
   bloodAnalysisResult:false,
-  testNeeded:false,
+  testNeeded:true,
   possibleDiseaseName: "",
   isConfirmationTestNeeded:false,
   confirmationTestResult:false,
@@ -67,11 +37,27 @@ export default function NewAnamnesisForm() {
     theme: 'material',
     themeVariant: 'light'
   });
+  const [selectData, setselectData] = useState<Symptom[]>([]);
+
+
+  useEffect(() => {
+      async function fetchSymptomOptions() {
+          try {
+              const [response] = await Promise.all([
+                  customAxios.get('/symptom')
+              ]);
+              setselectData(response.data);
+          } catch (error) {
+              console.error('Error fetching symptom options:', error);
+          }
+      }
+
+      fetchSymptomOptions();
+  }, []);
 
   const [selectedValues, setSelectedValues] = useState<number[]>([]);
   const [patientEmail, setPatientEmail] = useState('');
   const [description, setDescription] = useState('');
-  const [isTestNeeded, setIsTestNeeded] = useState<number>();
   const { user } = useUser();
 
   const [loading, setLoading] = useState(false);
@@ -94,9 +80,12 @@ export default function NewAnamnesisForm() {
     setDescription(event.target.value);
   };
 
-  const handleChangeIsTestNeeded = (event: { value: number }) => {
-    setIsTestNeeded(event.value);
-  };
+
+  const mapDataToSelectOptions = (data: { id: number; name: string, symptomLevel: symptomLevel; }[]) => {
+    return data.map(item => ({ value: item.id, text: item.name, group: item.symptomLevel == symptomLevel.LEVEL_1 ? 'Level 1' : 
+    item.symptomLevel == symptomLevel.LEVEL_2 ? 'Level 2' : 
+    item.symptomLevel }));
+};
 
 
 
@@ -111,7 +100,7 @@ export default function NewAnamnesisForm() {
       patientEmail: patientEmail,
       patientsSymptomsIds: selectedValues,
       description: description,
-      isTestNeeded: isTestNeeded == 1 ? true : false,
+      isTestNeeded: true,
       doctorId: user?.userId
     }
 
@@ -194,7 +183,7 @@ export default function NewAnamnesisForm() {
             />
             <StyledSelectWrapper>
               <Select
-                data={multipleData}
+                data={mapDataToSelectOptions(selectData)}
                 selectMultiple={true}
                 label="Select symptoms"
                 inputStyle="outline"
@@ -210,18 +199,6 @@ export default function NewAnamnesisForm() {
               name="description"
               onChange={handleChangeDescription}
             />
-            <StyledSelectWrapper>
-              <Select
-                data={booleanOptions}
-                selectMultiple={false}
-                label="Is test needed"
-                inputStyle="outline"
-                labelStyle="stacked"
-                placeholder="Select an option"
-                onChange={handleChangeIsTestNeeded}
-                required={true}
-              />
-            </StyledSelectWrapper>
             <Button type="button" onClick={handleSubmit}>
               Forward anamnesis
             </Button>
