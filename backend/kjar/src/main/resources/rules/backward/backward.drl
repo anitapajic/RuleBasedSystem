@@ -1,43 +1,29 @@
 package backward;
 
-import com.ftn.sbnz.model.models.Woman
-import com.ftn.sbnz.model.models.Man
-import com.ftn.sbnz.model.models.Parent
+import com.ftn.sbnz.model.models.backwardModel.BackwardModel;
+import com.ftn.sbnz.model.models.backwardModel.BackwardType;
+import com.ftn.sbnz.model.models.medicine.Medicine;
 
-query isWoman (String name)
-    Woman(name;)
+
+import java.util.List;
+
+global String ingredientGlobal;
+global List<String> medicineList;
+
+query pronadji(String sastojak, String lek)
+    BackwardModel(sastojak, lek; )
+    or
+    (BackwardModel(z, lek; ) and pronadji(sastojak, z; ))
 end
 
-query isMan (String name)
-    Man(name;)
-end
+rule "go4"
+when
+    $model: BackwardModel($ingredient: ingredient != ingredientGlobal, $medicine:medicine, backwardType == BackwardType.MEDICINE)
+    not BackwardModel(ingredient == ingredientGlobal, medicine == $medicine)
+    pronadji($ingredient, $medicine; )
+then
+    System.out.println($medicine);
+    medicineList.add($medicine);
 
-query isParent (String parentName, String childName)
-    Parent(parentName, childName;)
 end
-
-rule "is a woman"
-    when
-        String(this == "woman")
-        isWoman(name;)
-    then
-        System.out.println(name);
-end
-
-rule "is a man"
-    when
-        String(this == "man")
-        isMan(name;)
-    then
-        System.out.println(name);
-end
-
-rule "is a parent"
-    when
-        String(this == "parent")
-        isParent(parentName, childName;)
-    then
-        System.out.println(parentName + " is a parent of " + childName);
-end
-
 

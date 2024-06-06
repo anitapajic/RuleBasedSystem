@@ -10,8 +10,30 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.5.2",
+    "@fortawesome/free-solid-svg-icons": "^6.5.2",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@mantine/core": "^7.9.0",
+    "@mobiscroll/react": "npm:@mobiscroll/react-next-trial@^5.30.0",
+    "@types/react-router": "^5.1.20",
+    "@types/react-router-dom": "^5.3.3",
+    "@types/react-toastify": "^4.1.0",
+    "apexcharts": "^3.49.1",
+    "axios": "^1.6.8",
+    "date-fns": "^3.6.0",
+    "fortawesome": "^0.0.1-security",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-apexcharts": "^1.4.1",
+    "react-dom": "^18.2.0",
+    "react-fontawesome": "^1.7.1",
+    "react-icons": "^5.2.0",
+    "react-router": "^6.23.0",
+    "react-router-dom": "^6.23.0",
+    "react-stomp": "^5.1.0",
+    "react-toastify": "^10.0.5",
+    "semantic-ui-css": "^2.5.0",
+    "semantic-ui-react": "^2.1.5",
+    "styled-components": "^6.1.9"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

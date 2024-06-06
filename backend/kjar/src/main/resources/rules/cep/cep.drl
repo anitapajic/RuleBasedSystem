@@ -1,41 +1,141 @@
 package cep;
 
-import com.ftn.sbnz.model.events.Landing
-import com.ftn.sbnz.model.events.TransactionEvent
-import com.ftn.sbnz.model.models.Account
+import com.ftn.sbnz.model.events.TemperatureEvent
+import com.ftn.sbnz.model.events.OxygenEvent
+import com.ftn.sbnz.model.events.DiarrheaEvent
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ftn.sbnz.model.dto.EmergencyMessageDTO;
+import com.ftn.sbnz.model.dto.EmergencyType;
+import java.util.Date;
 
-rule "flight landing rule"
-    when
-        $e1: Landing($flight1: flight)
-        $e2: Landing(this != $e1, this before[0s, 3s] $e1, $flight2: flight)
-    then
-        System.out.println("Flight " + $flight1 + " redirected because " + $flight2 + " is still on track.");
+global SimpMessagingTemplate simpMessagingTemplate;
+global ObjectMapper jsonMapper;
+
+declare TemperatureAlarm
+    @role(event)
+    temperatureValue: double
+    patientName: String
+    patientId: int
 end
 
-//rule "duplicate transactions"
-//    when
-//        $t1: TransactionEvent($c1: customerId, $total1: totalAmount, $transactionId: id)
-//        $t2: TransactionEvent(this != $t1, customerId == $c1, totalAmount == $total1, this after[0s, 15s] $t1)
-//    then
-//        System.out.println("Transaction duplicate - " + $t2.getId());
-//end
-
-
-rule "make suspicious transaction rule"
-    when
-        $acc: Account($accCustomerId: customerId, $accountState: accountState)
-        $t1: TransactionEvent(  customerId == $accCustomerId,
-                                totalAmount > 0.4 * $accountState,
-                                $transaction1CustomerId: customerId,
-                                $transaction1Total: totalAmount)
-
-        $t2: TransactionEvent(
-                                customerId == $accCustomerId,
-                                totalAmount > 0.4 * $accountState,
-                                this != $t1,
-                                this after[0s, 4s] $t1,
-                                $transaction1Total + totalAmount > 0.9 * $accountState)
-
-    then
-        System.out.println("Sus transactions: " + $t1.getId() + " and " + $t2.getId());
+declare OxygenAlarm
+    @role(event)
+    patientName: String
+    patientId: int
 end
+
+declare OxygenEmergency
+    @role(event)
+    patientId: int
+end
+
+declare IntravenousFluids
+    @role(event)
+    patientId: int
+    patientName: String
+end
+
+rule "Generate Temperature Warning"
+no-loop
+//agenda-group "temperature"
+when
+    $e1 : TemperatureEvent($patientId: patientId, temperatureValue>38.5, $temperatureValue: temperatureValue, $patientName: patientName)
+        Number(intValue >= 2) from accumulate(
+            $e : TemperatureEvent(
+                temperatureValue > 38.5,
+                patientId == $patientId,
+                patientName == $patientName
+            )
+            over window:time(12h),
+            count(1)
+        )
+        not TemperatureAlarm(patientId==$patientId)
+    then
+        insert(new TemperatureAlarm($temperatureValue, $patientName, $patientId));
+        System.out.println("Kreirano je upozorenje za visoku temperaturu za pacijenta: " + $patientName);
+end
+
+
+rule "Generate Emergency Intervention"
+no-loop
+//agenda-group "temperature"
+when
+    $alarm : TemperatureAlarm($patientId: patientId, $temperatureValue: temperatureValue, $patientName: patientName)
+    not TemperatureEvent(
+        patientId == $patientId,
+        temperatureValue < 38.5,
+        this after[0s, 2h] $alarm
+    )
+then
+    EmergencyMessageDTO emergencyMessageDTO = new EmergencyMessageDTO($patientId,
+                                        "Urgent doctor intervention needed for patient : " + $patientName
+                                        + " because of high body temperature " + $temperatureValue,
+                                        $patientName, EmergencyType.HIGH_TEMPERATURE);
+    String payload = jsonMapper.writeValueAsString(emergencyMessageDTO);
+    simpMessagingTemplate.convertAndSend("/emergency/all", payload);
+    System.out.println("Potrebna je hitna intervencija za pacijenta: " + $patientName + " zbog visoke temperature od " + $temperatureValue);
+end
+
+
+rule "Possible respiratory infection"
+    //agenda-group "oxygenSaturation"
+    when
+        $oxygenEvent: OxygenEvent($patientId: patientId, $patientName: patientName)
+        Number(doubleValue < 92.0) from accumulate(
+            $oxygenEvent2: OxygenEvent(
+                patientId == $patientId,
+                $oxygenSaturationPercentage: oxygenSaturationPercentage
+            )
+            over window: time(1h), average($oxygenSaturationPercentage)
+        )
+        Number(intValue == 0) from accumulate(
+            $oa: OxygenAlarm(patientId == $patientId)
+            over window: time(1h), count($oa)
+        )
+    then
+        insert(new OxygenAlarm($patientName, $patientId));
+        System.out.println("Warning, oxygen saturation percentage is low!");
+end
+
+rule "Generate oxygen emergency intervention"
+    when
+        $oxygenAlarm: OxygenAlarm($patientId: patientId, $patientName: patientName)
+        Number(intValue >= 3) from accumulate(
+            $oxygenAlarm2: OxygenAlarm(patientId == $patientId)
+            over window: time(12h), count($oxygenAlarm2)
+        )
+        not OxygenEmergency(patientId == $patientId)
+    then
+        insert(new OxygenEmergency($patientId));
+        EmergencyMessageDTO emergencyMessageDTO = new EmergencyMessageDTO($patientId,
+                                                "Urgent doctor intervention needed for patient : " + $patientName
+                                                + " because of low oxygen saturation.",
+                                                $patientName, EmergencyType.LOW_OXYGEN_SATURATION);
+            String payload = jsonMapper.writeValueAsString(emergencyMessageDTO);
+            simpMessagingTemplate.convertAndSend("/emergency/all", payload);
+        System.out.println("Emergency! Oxygen low for 12 hours.");
+end
+
+rule "Generate intravenous fluids notification"
+    when
+        $diarrheaEvent: DiarrheaEvent($patientId: patientId, $patientName: patientName)
+        Number(intValue >= 5) from accumulate(
+            $diarrheaEvent2: DiarrheaEvent(patientId == $patientId)
+            over window: time(12h), count($diarrheaEvent2)
+        )
+        not IntravenousFluids(patientId == $patientId)
+    then
+        insert(new IntravenousFluids($patientId, $patientName));
+        EmergencyMessageDTO emergencyMessageDTO = new EmergencyMessageDTO($patientId,
+                                                "Intravenous fluids needed for patient : " + $patientName
+                                                + " because of many diarrhea episodes ",
+                                                $patientName, EmergencyType.INTRAVENOUS_FLUIDS);
+        String payload = jsonMapper.writeValueAsString(emergencyMessageDTO);
+        simpMessagingTemplate.convertAndSend("/emergency/all", payload);
+        System.out.println("Intravenous fluids needed for patient " + $patientName);
+end
+
+
+
+

@@ -1,0 +1,70 @@
+package rules.forward2;
+dialect  "mvel"
+import com.ftn.sbnz.model.models.therapy.TherapyEvaluation
+import com.ftn.sbnz.model.models.diagnosis.Diagnosis
+import com.ftn.sbnz.model.models.medicine.Medicine
+import com.ftn.sbnz.model.models.user.Patient
+
+
+
+import java.lang.Integer
+import java.util.Random
+import java.util.List;
+
+rule "Prescribe medicine to patient"
+    no-loop
+    when
+        $therapyEvaluation: TherapyEvaluation()
+        Boolean(booleanValue == false) from $therapyEvaluation.getMedicinePrescribed()
+        $diagnosis: Diagnosis()
+        $medicine: Medicine()
+    then
+        modify($therapyEvaluation) {
+            setMedicineName($medicine.getName()),
+            setMedicinePrescribed(true),
+            setFrequency(2),
+            setMilligrams(200)
+        }
+end
+
+rule "Infection level is bigger than 2"
+no-loop
+    when
+        $therapyEvaluation: TherapyEvaluation()
+        Boolean(booleanValue == true) from $therapyEvaluation.getMedicinePrescribed()
+        Boolean(booleanValue == false) from $therapyEvaluation.getBiggerDoseNeeded()
+        $diagnosis: Diagnosis(diseaseLevel >= 2)
+    then
+        modify($therapyEvaluation) {
+            setBiggerDoseNeeded(true)
+        }
+end
+
+rule "Give bigger dose if patient has more than 16 years"
+    no-loop
+    when
+        $therapyEvaluation: TherapyEvaluation(patientAge > 16)
+        Boolean(booleanValue == true) from $therapyEvaluation.getBiggerDoseNeeded()
+        Boolean(booleanValue == false) from $therapyEvaluation.getBiggerFrequencyNeeded()
+    then
+        modify($therapyEvaluation) {
+            setMilligrams(400),
+            setBiggerFrequencyNeeded(true)
+        }
+end
+
+rule "Give bigger frequency if patient has more than 50 kilos"
+    no-loop
+    when
+        $therapyEvaluation: TherapyEvaluation()
+        $diagnosis: Diagnosis()
+        Boolean(booleanValue == true) from $therapyEvaluation.getBiggerFrequencyNeeded()
+        $patient: Patient() from $diagnosis.getPatient()
+        $patientWeight: Double() from $patient.getWeight()
+        Boolean(booleanValue == true) from $patientWeight > 50
+    then
+        modify($therapyEvaluation) {
+            setFrequency(3)
+        }
+end
+

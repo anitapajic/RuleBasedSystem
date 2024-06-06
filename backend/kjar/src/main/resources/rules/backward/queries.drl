@@ -1,0 +1,36 @@
+package backward;
+dialect  "mvel"
+
+import com.ftn.sbnz.model.models.medicine.Medicine
+import com.ftn.sbnz.model.models.therapy.Therapy
+import com.ftn.sbnz.model.models.user.Patient
+import com.ftn.sbnz.model.models.diagnosis.Diagnosis
+import com.ftn.sbnz.model.models.medicine.Ingredient
+import com.ftn.sbnz.model.models.symptom.Symptom
+import com.ftn.sbnz.model.models.anamnesis.Anamnesis
+
+import java.time.LocalDateTime;
+import java.lang.Integer
+import java.util.Random
+import java.util.List;
+
+
+// Query to get patients for a specific medicine via therapies and diagnoses
+query "PatientsForMedicine" (Medicine $medicine)
+    $therapy : Therapy(medicine == $medicine)
+    $diagnosis : Diagnosis() from $therapy.diagnosis
+    $patient : Patient() from $diagnosis.patient
+end
+
+// Query to get patients allergic to a specific allergen
+query "PatientsForAllergen" (Ingredient $allergen)
+    $patient : Patient(allergens contains $allergen)
+end
+
+// Query to get anamneses with a specific symptom with optional time period
+query "AnamnesesWithSymptomInPeriod" (Symptom $symptom, LocalDateTime $startDate, LocalDateTime $endDate)
+    $anamnesis : Anamnesis(patientsSymptoms contains $symptom,
+                           (this.dateTime >= $startDate || $startDate == null),
+                           (this.dateTime <= $endDate || $endDate == null))
+end
+
