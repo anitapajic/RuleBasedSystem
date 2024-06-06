@@ -149,51 +149,51 @@ INSERT INTO disease_medicine (disease_id, medicine_id) VALUES (5, 17);
 INSERT INTO disease_medicine (disease_id, medicine_id) VALUES (5, 18);
 
 -- INGREDIENTS --
-INSERT INTO ingredients (name) VALUES ('Penicilin V');
-INSERT INTO ingredients (name) VALUES ('Laktoza');
-INSERT INTO ingredients (name) VALUES ('Povidon');
+INSERT INTO ingredients (name) VALUES ('Penicillin V');
+INSERT INTO ingredients (name) VALUES ('Lactose');
+INSERT INTO ingredients (name) VALUES ('Povidone');
 
-INSERT INTO ingredients (name) VALUES ('Eritromicin');
+INSERT INTO ingredients (name) VALUES ('Erythromycin');
 
-INSERT INTO ingredients (name) VALUES ('Mikroceluloza');
-INSERT INTO ingredients (name) VALUES ('Hipromeloza');
+INSERT INTO ingredients (name) VALUES ('Microcrystalline Cellulose');
+INSERT INTO ingredients (name) VALUES ('Hypromellose');
 
-INSERT INTO ingredients (name) VALUES ('Azitromicin');
-INSERT INTO ingredients (name) VALUES ('Kukuruzni skrob');
-INSERT INTO ingredients (name) VALUES ('Titanijum dioksid');
+INSERT INTO ingredients (name) VALUES ('Azithromycin');
+INSERT INTO ingredients (name) VALUES ('Corn Starch');
+INSERT INTO ingredients (name) VALUES ('Titanium Dioxide');
 
 INSERT INTO ingredients (name) VALUES ('Levofloxacin');
-INSERT INTO ingredients (name) VALUES ('Krospovidon');
-INSERT INTO ingredients (name) VALUES ('Hidroksipropilmetilceluloza');
+INSERT INTO ingredients (name) VALUES ('Crospovidone');
+INSERT INTO ingredients (name) VALUES ('Hydroxypropyl Methylcellulose');
 
-INSERT INTO ingredients (name) VALUES ('Amoksicilin');
-INSERT INTO ingredients (name) VALUES ('Magnezijum stearat');
+INSERT INTO ingredients (name) VALUES ('Amoxicillin');
+INSERT INTO ingredients (name) VALUES ('Magnesium Stearate');
 
-INSERT INTO ingredients (name) VALUES ('Doksiciklin');
+INSERT INTO ingredients (name) VALUES ('Doxycycline');
 
 INSERT INTO ingredients (name) VALUES ('Rifampicin');
 
-INSERT INTO ingredients (name) VALUES ('Pirazinamid');
+INSERT INTO ingredients (name) VALUES ('Pyrazinamide');
 
-INSERT INTO ingredients (name) VALUES ('Etambutol');
+INSERT INTO ingredients (name) VALUES ('Ethambutol');
 
-INSERT INTO ingredients (name) VALUES ('Ciprofloksacin');
+INSERT INTO ingredients (name) VALUES ('Ciprofloxacin');
 
-INSERT INTO ingredients (name) VALUES ('Ceftriakson');
-INSERT INTO ingredients (name) VALUES ('Natrijum hidroksid');
-INSERT INTO ingredients (name) VALUES ('Limunska kiselina');
+INSERT INTO ingredients (name) VALUES ('Ceftriaxone');
+INSERT INTO ingredients (name) VALUES ('Sodium Hydroxide');
+INSERT INTO ingredients (name) VALUES ('Citric Acid');
 
-INSERT INTO ingredients (name) VALUES ('Prednizon');
-INSERT INTO ingredients (name) VALUES ('Kalcijum stearat');
+INSERT INTO ingredients (name) VALUES ('Prednisone');
+INSERT INTO ingredients (name) VALUES ('Calcium Stearate');
 
-INSERT INTO ingredients (name) VALUES ('Deksametazon');
-INSERT INTO ingredients (name) VALUES ('Skrob');
+INSERT INTO ingredients (name) VALUES ('Dexamethasone');
+INSERT INTO ingredients (name) VALUES ('Starch');
 
-INSERT INTO ingredients (name) VALUES ('Metilprednizolon');
+INSERT INTO ingredients (name) VALUES ('Methylprednisolone');
 
-INSERT INTO ingredients (name) VALUES ('Ceftriakson');
+INSERT INTO ingredients (name) VALUES ('Ceftriaxone');
 
-INSERT INTO ingredients (name) VALUES ('Cefotaksim');
+INSERT INTO ingredients (name) VALUES ('Cefotaxime');
 
 INSERT INTO ingredients (name) VALUES ('Isoniazid');
 

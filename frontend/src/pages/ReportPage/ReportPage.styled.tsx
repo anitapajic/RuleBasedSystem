@@ -2,8 +2,9 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const StyledSegmented = styled.div`
-    width: 300%;
+    width: 200%;
     padding: 20px;
+    max-width: 250%;
 `
 export const StyledSelectWrapper = styled.div`
     .mbsc-select {
@@ -58,4 +59,13 @@ export const ClearDatesButton = styled.button`
   &:focus {
     outline: none;
   }
+`;
+
+export const Name = styled.p`
+  font-size: 18px;
+  font-weight: bold;
+  text-align:center;
+  padding:10px;
+  //padding-left: 20px;
+  color:rgb(77, 75, 75);
 `;

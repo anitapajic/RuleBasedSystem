@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import '@mobiscroll/react/dist/css/mobiscroll.min.css';
 import { Container } from "../../components/homeInfo/HomeInfo.styled";
 import { Wrapper } from "../DoctorHomePage/DoctorHomePage.styled";
-import { AllInputContainer, ClearDatesButton, CustomInputLabel, InputContainer, StyledFontAwesomeIcon, StyledSegmented, StyledSelectWrapper } from "./ReportPage.styled";
+import { AllInputContainer, ClearDatesButton, CustomInputLabel, InputContainer, Name, StyledFontAwesomeIcon, StyledSegmented, StyledSelectWrapper } from "./ReportPage.styled";
 import { QueryDTO } from "../../models/QueryDTO";
 import customAxios from "../../services/AxiosInterceptor/AxiosInterceptor";
 import { Medicine } from "../../models/Medicine";
@@ -110,6 +110,8 @@ export default function ReportPage() {
                         </div>
                     </StyledSegmented>
                     {selectedReport === '1' && (
+                        <>
+                        <Name>Number of patients that use selected medicine</Name>
                         <StyledSelectWrapper>
                             <Select
                                 data={mapDataToSelectOptions(dataReport1)}
@@ -122,8 +124,11 @@ export default function ReportPage() {
                                 required={true}
                             />
                         </StyledSelectWrapper>
+                        </>
                     )}
                     {selectedReport === '2' && (
+                        <>
+                        <Name>Number of patients that are allergic to selected ingredient</Name>
                         <StyledSelectWrapper>
                             <Select
                                 data={mapDataToSelectOptions(dataReport2)}
@@ -136,9 +141,11 @@ export default function ReportPage() {
                                 required={true}
                             />
                         </StyledSelectWrapper>
+                        </>
                     )}
                     {selectedReport === '3' && (
                         <>
+                        <Name>Number of patients that had selected symptom</Name>
                         <AllInputContainer>
                                 <InputContainer>
                                     <CustomInputLabel>From: </CustomInputLabel>

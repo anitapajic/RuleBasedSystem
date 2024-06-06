@@ -14,7 +14,7 @@ public class IngredientController {
     @Autowired
     private IngredientService ingredientService;
 
-    @PreAuthorize("hasAnyRole('DOCTOR')")
+    @PreAuthorize("hasAnyRole('DOCTOR', 'PATIENT')")
     @GetMapping
     public ResponseEntity<?> findAll(){
         return ResponseEntity.ok(ingredientService.findAll());
